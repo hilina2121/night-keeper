@@ -56,7 +56,11 @@ Evidence: matching `"experiment": "E…"` lines in `runs.jsonl`.
 - **Change:** new optional field `tts_text` per shot (schema + narration stage). Shot 10: `narration` "Abba, this is my promise." (subtitle) / `tts_text` "Ahba, this is my promise." (spoken). Nothing else changed in shot 10.
 - **Result:** Whisper transcribed the new take's last line as **"Abba, this is my promise."**, so an English listener model hears the intended word. The subtitle file still shows "Abba" (`outputs/radio/radio_cut.srt`).
   Caveat: this was recorded in the same take as E5, so two things changed at once (the quota allowed one take). Whisper is not a native speaker either.
-- **Decision:** keep `tts_text` "Ahba". *(Listening check by me and Dereje: to fill in.)*
+- **Listening check (me):** **failed.** To my ear "Ahba" came out as "Ababa" (like Addis Ababa). Whisper said "Abba" because it normalises to a known word, so **Whisper is not a valid judge of pronunciation**; only a human ear is.
+- **E4b, spelling audition:** same sentence ("___, this is my promise."), same voice, four spellings: Aba, Ahbah, Ah-ba, Abbah (`python -m pipeline.spelling_audition`, files in `outputs/spelling_audition/`).
+  Not perfectly fair: the main model's quota ran out, so Aba/Ahbah came from `gemini-3.8-flash-lite-tts` and Ah-ba/Abbah from `gemini-2.5-flash-preview-tts`.
+- **Result:** I chose **"Aba"**: it is the closest to how I say my father's name.
+- **Decision:** shot 10 `tts_text` = "Aba, this is my promise." (subtitle stays "Abba"). The one take was regenerated with it (1 request, `gemini-3.8-flash-tts`); radio cut = 66.5 s.
 
 ## E5. One take vs one call per line: does the voice stay continuous? (24 Nov)
 

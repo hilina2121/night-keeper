@@ -5,22 +5,22 @@
       "start": 0.0,
       "duration": 8,
       "voice_start": 0.3,
-      "voice_seconds": 6.12,
+      "voice_seconds": 6.22,
       "text": "Every night, while the city slept, my father kept watch over a mall that was not his.",
-      "voice_file": "outputs/narration/shot_01_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_01_tc9b6dd43e8.wav"
     },
     {
       "id": 2,
       "start": 8.0,
-      "duration": 5.94,
+      "duration": 6.36,
       "voice_start": 8.3,
-      "voice_seconds": 4.44,
+      "voice_seconds": 4.86,
       "text": "He sat by the doors in his old coat, through the long night shift.",
-      "voice_file": "outputs/narration/shot_02_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_02_tc9b6dd43e8.wav"
     },
     {
       "id": 3,
-      "start": 13.94,
+      "start": 14.36,
       "duration": 4,
       "voice_start": null,
       "voice_seconds": 0.0,
@@ -29,72 +29,72 @@
     },
     {
       "id": 4,
-      "start": 17.94,
-      "duration": 6.5,
-      "voice_start": 18.24,
-      "voice_seconds": 5.0,
+      "start": 18.36,
+      "duration": 7.24,
+      "voice_start": 18.66,
+      "voice_seconds": 5.74,
       "text": "In the morning he came home tired, and still he made sure I went to school.",
-      "voice_file": "outputs/narration/shot_04_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_04_tc9b6dd43e8.wav"
     },
     {
       "id": 5,
-      "start": 24.44,
+      "start": 25.6,
       "duration": 3.5,
-      "voice_start": 24.74,
-      "voice_seconds": 1.32,
+      "voice_start": 25.9,
+      "voice_seconds": 1.45,
       "text": "A good school.",
-      "voice_file": "outputs/narration/shot_05_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_05_tc9b6dd43e8.wav"
     },
     {
       "id": 6,
-      "start": 27.94,
-      "duration": 5.84,
-      "voice_start": 28.24,
-      "voice_seconds": 4.34,
+      "start": 29.1,
+      "duration": 6.06,
+      "voice_start": 29.4,
+      "voice_seconds": 4.56,
       "text": "A school he could not afford, until he decided he could.",
-      "voice_file": "outputs/narration/shot_06_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_06_tc9b6dd43e8.wav"
     },
     {
       "id": 7,
-      "start": 33.78,
+      "start": 35.16,
       "duration": 6,
-      "voice_start": 34.08,
-      "voice_seconds": 2.12,
+      "voice_start": 35.46,
+      "voice_seconds": 2.34,
       "text": "He never told me what it cost him.",
-      "voice_file": "outputs/narration/shot_07_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_07_tc9b6dd43e8.wav"
     },
     {
       "id": 8,
-      "start": 39.78,
-      "duration": 8.58,
-      "voice_start": 40.08,
-      "voice_seconds": 7.08,
+      "start": 41.16,
+      "duration": 9.3,
+      "voice_start": 41.46,
+      "voice_seconds": 7.8,
       "text": "Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.",
-      "voice_file": "outputs/narration/shot_08_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_08_tc9b6dd43e8.wav"
     },
     {
       "id": 9,
-      "start": 48.36,
+      "start": 50.46,
       "duration": 6,
-      "voice_start": 48.66,
-      "voice_seconds": 3.24,
+      "voice_start": 50.76,
+      "voice_seconds": 3.44,
       "text": "Because one day, I will rebuild his house.",
-      "voice_file": "outputs/narration/shot_09_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_09_tc9b6dd43e8.wav"
     },
     {
       "id": 10,
-      "start": 54.36,
+      "start": 56.46,
       "duration": 7,
-      "voice_start": 54.66,
-      "voice_seconds": 1.38,
+      "voice_start": 56.76,
+      "voice_seconds": 1.68,
       "text": "Abba, this is my promise.",
-      "voice_file": "outputs/narration/shot_10_t4687b8970f.wav"
+      "voice_file": "outputs/narration/shot_10_tc9b6dd43e8.wav"
     }
   ],
   "end_card": {
-    "start": 61.36,
+    "start": 63.46,
     "duration": 3,
     "text": "The Night Keeper\nMade with AI, from a true family story"
   },
-  "total": 64.36
+  "total": 66.46
 }

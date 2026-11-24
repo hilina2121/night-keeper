@@ -194,7 +194,7 @@
       "image_prompt": "the same plot rebuilt as a modest new house with clean walls and a new roof, a worn dark-green wool coat hanging by the new door, warm golden dream-like light",
       "motion_prompt": "the camera pushes in slowly toward the door, warm light glows",
       "narration": "Abba, this is my promise.",
-      "tts_text": "Ahba, this is my promise.",
+      "tts_text": "Aba, this is my promise.",
       "min_duration_s": 7,
       "seed": 110
     }

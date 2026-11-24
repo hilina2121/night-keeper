@@ -1,111 +1,111 @@
 {
   "1": {
-    "file": "outputs/narration/shot_01_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 6.12,
+    "file": "outputs/narration/shot_01_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 6.22,
     "text": "Every night, while the city slept, my father kept watch over a mall that was not his.",
     "spoken": "Every night, while the city slept, my father kept watch over a mall that was not his.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
       0.0,
-      6.12
+      6.22
     ]
   },
   "2": {
-    "file": "outputs/narration/shot_02_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 4.44,
+    "file": "outputs/narration/shot_02_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 4.86,
     "text": "He sat by the doors in his old coat, through the long night shift.",
     "spoken": "He sat by the doors in his old coat, through the long night shift.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      6.5,
-      10.94
+      6.4,
+      11.26
     ]
   },
   "3": null,
   "4": {
-    "file": "outputs/narration/shot_04_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 5.0,
+    "file": "outputs/narration/shot_04_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 5.74,
     "text": "In the morning he came home tired, and still he made sure I went to school.",
     "spoken": "In the morning he came home tired, and still he made sure I went to school.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      11.52,
-      16.52
+      11.5,
+      17.24
     ]
   },
   "5": {
-    "file": "outputs/narration/shot_05_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 1.32,
+    "file": "outputs/narration/shot_05_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 1.45,
     "text": "A good school.",
     "spoken": "A good school.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      16.58,
-      17.9
+      17.36,
+      18.81
     ]
   },
   "6": {
-    "file": "outputs/narration/shot_06_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 4.34,
+    "file": "outputs/narration/shot_06_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 4.56,
     "text": "A school he could not afford, until he decided he could.",
     "spoken": "A school he could not afford, until he decided he could.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      18.24,
-      22.58
+      18.96,
+      23.52
     ]
   },
   "7": {
-    "file": "outputs/narration/shot_07_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 2.12,
+    "file": "outputs/narration/shot_07_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 2.34,
     "text": "He never told me what it cost him.",
     "spoken": "He never told me what it cost him.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      23.26,
-      25.38
+      23.8,
+      26.14
     ]
   },
   "8": {
-    "file": "outputs/narration/shot_08_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 7.08,
+    "file": "outputs/narration/shot_08_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 7.8,
     "text": "Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.",
     "spoken": "Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      25.8,
-      32.88
+      26.88,
+      34.68
     ]
   },
   "9": {
-    "file": "outputs/narration/shot_09_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 3.24,
+    "file": "outputs/narration/shot_09_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 3.44,
     "text": "Because one day, I will rebuild his house.",
     "spoken": "Because one day, I will rebuild his house.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      33.22,
-      36.46
+      35.46,
+      38.9
     ]
   },
   "10": {
-    "file": "outputs/narration/shot_10_t4687b8970f.wav",
-    "hash": "t4687b8970f",
-    "seconds": 1.38,
+    "file": "outputs/narration/shot_10_tc9b6dd43e8.wav",
+    "hash": "tc9b6dd43e8",
+    "seconds": 1.68,
     "text": "Abba, this is my promise.",
-    "spoken": "Ahba, this is my promise.",
-    "take": "outputs/narration/take_4687b8970f.wav",
+    "spoken": "Aba, this is my promise.",
+    "take": "outputs/narration/take_c9b6dd43e8.wav",
     "span": [
-      38.0,
-      39.38
+      40.24,
+      41.92
     ]
   }
 }
