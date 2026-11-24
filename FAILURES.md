@@ -47,3 +47,9 @@ What broke, what I tried, what fixed it. Newest at the bottom. Evidence is in `r
 - **What broke (2):** `gemini-3.1-flash-tts-preview` has a **3 requests/minute** limit. My backoff waited 2+4+8 s and gave up before the minute passed.
 - **Fix:** the retry now reads Gemini's own `"retryDelay": "Ns"` from the error and waits that long. The re-run cached shots 1–8 and generated only 9 and 10.
 - **Result:** narration for the radio cut uses `gemini-3.1-flash-tts-preview` for **all 9 lines** (one consistent voice). Switch back to 3.8 for the final once its quota resets.
+
+## F9. Splitting the one-take narration at pauses mis-cut two shots (24 Nov)
+- **What broke:** the first one-take narration was cut at the 8 longest silences. Shots 6 and 7 came out impossible: 11 words in 1.6 s.
+- **Why:** inside line 6 ("Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.") the narrator pauses between sentences about as long as between lines.
+- **Tried:** the same splitter on a synthetic take (v1 lines + 0.7 s silences) worked perfectly, which hid the problem.
+- **Fix:** align the script to Whisper word timestamps (EXPERIMENTS E6). No extra TTS request was needed: the take was cached, only the cut changed.

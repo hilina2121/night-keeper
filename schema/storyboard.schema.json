@@ -39,7 +39,9 @@
         "voice": {"type": "string"},
         "style": {"type": "string", "description": "Plain-language delivery instruction, e.g. calm, warm, unhurried"},
         "language": {"type": "string"},
-        "gap_s": {"type": "number", "minimum": 0, "maximum": 3, "default": 0.6, "description": "Silence after each line"}
+        "gap_s": {"type": "number", "minimum": 0, "maximum": 3, "default": 0.6, "description": "Silence after each line"},
+        "mode": {"enum": ["per_line", "one_take"], "default": "per_line",
+                 "description": "per_line: one TTS call per shot (cheap re-takes, but the tone can change between lines). one_take: the whole narration in one call, cut into shots at the pauses (one continuous voice, 1 call; changing any line regenerates the whole take). See EXPERIMENTS E5"}
       }
     },
     "music": {
@@ -89,7 +91,8 @@
           "characters": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
           "image_prompt": {"type": "string", "minLength": 10, "description": "Subject and setting; style_block and character descriptions are added by the keyframes stage"},
           "motion_prompt": {"type": "string", "description": "Only motion and camera; the keyframe already holds the subject"},
-          "narration": {"type": "string", "description": "Line spoken over this shot; empty string for a silent beat"},
+          "narration": {"type": "string", "description": "Line spoken over this shot; empty string for a silent beat. Also the subtitle text"},
+          "tts_text": {"type": "string", "minLength": 1, "description": "Optional: what the TTS is given instead of `narration`, e.g. a phonetic spelling of a name. Subtitles still use `narration`. See EXPERIMENTS E4"},
           "min_duration_s": {"type": "number", "minimum": 1, "maximum": 15, "description": "Shot is at least this long, longer if its narration needs it"},
           "seed": {"type": "integer", "minimum": 0}
         }

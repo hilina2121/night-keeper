@@ -90,8 +90,8 @@ Sent by message on 24 Nov; answers written down as they were given.
 
 | # | Feedback | Change | Status |
 |---|---|---|---|
-| 1 | "abba looks like ai sound" | Add a TTS-only spelling for the spoken text; subtitles keep "Abba". Test spellings with Whisper and by ear (EXPERIMENTS E4) | proposed |
-| 2 | Voice changes between sentences | Generate the whole narration in **one** TTS take, then cut it into lines at the silences; compare with per-line (EXPERIMENTS E5) | proposed |
+| 1 | "abba looks like ai sound" | Add a TTS-only spelling for the spoken text; subtitles keep "Abba". Test spellings with Whisper and by ear (EXPERIMENTS E4) | **done**: shot 10 `tts_text` "Ahba"; Whisper hears "Abba". Ear check pending |
+| 2 | Voice changes between sentences | Generate the whole narration in **one** TTS take, then cut it into lines at the silences; compare with per-line (EXPERIMENTS E5, E6) | **done**: `mode: one_take`, 1 request instead of 9; radio cut v2 = 64.4 s |
 | 3 | Coat detail unclear | **Cut** "I learned it from his coat." Line 5 is now only "He never told me what it cost him." The sentence promised an explanation the film never gives; without it, the coat on the wall (shot 7) says it silently. The coat stays as the visual motif in shots 2, 3, 7 and 10. Decided by me on 24 Nov | **done** (storyboard shot 7) |
 
 ## 6. User test 2: near-final cut

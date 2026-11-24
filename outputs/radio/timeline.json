@@ -3,24 +3,24 @@
     {
       "id": 1,
       "start": 0.0,
-      "duration": 8.311,
+      "duration": 8,
       "voice_start": 0.3,
-      "voice_seconds": 6.811,
+      "voice_seconds": 6.12,
       "text": "Every night, while the city slept, my father kept watch over a mall that was not his.",
-      "voice_file": "outputs/narration/shot_01_cd8f9ca019.wav"
+      "voice_file": "outputs/narration/shot_01_t4687b8970f.wav"
     },
     {
       "id": 2,
-      "start": 8.311,
-      "duration": 6.431,
-      "voice_start": 8.611,
-      "voice_seconds": 4.931,
+      "start": 8.0,
+      "duration": 5.94,
+      "voice_start": 8.3,
+      "voice_seconds": 4.44,
       "text": "He sat by the doors in his old coat, through the long night shift.",
-      "voice_file": "outputs/narration/shot_02_03b70d4ef9.wav"
+      "voice_file": "outputs/narration/shot_02_t4687b8970f.wav"
     },
     {
       "id": 3,
-      "start": 14.742,
+      "start": 13.94,
       "duration": 4,
       "voice_start": null,
       "voice_seconds": 0.0,
@@ -29,72 +29,72 @@
     },
     {
       "id": 4,
-      "start": 18.742,
-      "duration": 6.551,
-      "voice_start": 19.042,
-      "voice_seconds": 5.051,
+      "start": 17.94,
+      "duration": 6.5,
+      "voice_start": 18.24,
+      "voice_seconds": 5.0,
       "text": "In the morning he came home tired, and still he made sure I went to school.",
-      "voice_file": "outputs/narration/shot_04_434d6faee5.wav"
+      "voice_file": "outputs/narration/shot_04_t4687b8970f.wav"
     },
     {
       "id": 5,
-      "start": 25.293,
+      "start": 24.44,
       "duration": 3.5,
-      "voice_start": 25.593,
-      "voice_seconds": 1.491,
+      "voice_start": 24.74,
+      "voice_seconds": 1.32,
       "text": "A good school.",
-      "voice_file": "outputs/narration/shot_05_f2055dccd8.wav"
+      "voice_file": "outputs/narration/shot_05_t4687b8970f.wav"
     },
     {
       "id": 6,
-      "start": 28.793,
-      "duration": 6.231,
-      "voice_start": 29.093,
-      "voice_seconds": 4.731,
+      "start": 27.94,
+      "duration": 5.84,
+      "voice_start": 28.24,
+      "voice_seconds": 4.34,
       "text": "A school he could not afford, until he decided he could.",
-      "voice_file": "outputs/narration/shot_06_d17bf765d7.wav"
+      "voice_file": "outputs/narration/shot_06_t4687b8970f.wav"
     },
     {
       "id": 7,
-      "start": 35.024,
+      "start": 33.78,
       "duration": 6,
-      "voice_start": 35.324,
-      "voice_seconds": 4.371,
-      "text": "He never told me what it cost him. I learned it from his coat.",
-      "voice_file": "outputs/narration/shot_07_c5c13810ec.wav"
+      "voice_start": 34.08,
+      "voice_seconds": 2.12,
+      "text": "He never told me what it cost him.",
+      "voice_file": "outputs/narration/shot_07_t4687b8970f.wav"
     },
     {
       "id": 8,
-      "start": 41.024,
-      "duration": 9.191,
-      "voice_start": 41.324,
-      "voice_seconds": 7.691,
+      "start": 39.78,
+      "duration": 8.58,
+      "voice_start": 40.08,
+      "voice_seconds": 7.08,
       "text": "Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.",
-      "voice_file": "outputs/narration/shot_08_0bbf04480f.wav"
+      "voice_file": "outputs/narration/shot_08_t4687b8970f.wav"
     },
     {
       "id": 9,
-      "start": 50.215,
+      "start": 48.36,
       "duration": 6,
-      "voice_start": 50.515,
-      "voice_seconds": 3.651,
+      "voice_start": 48.66,
+      "voice_seconds": 3.24,
       "text": "Because one day, I will rebuild his house.",
-      "voice_file": "outputs/narration/shot_09_6c947d3899.wav"
+      "voice_file": "outputs/narration/shot_09_t4687b8970f.wav"
     },
     {
       "id": 10,
-      "start": 56.215,
+      "start": 54.36,
       "duration": 7,
-      "voice_start": 56.515,
-      "voice_seconds": 3.131,
+      "voice_start": 54.66,
+      "voice_seconds": 1.38,
       "text": "Abba, this is my promise.",
-      "voice_file": "outputs/narration/shot_10_9526c3ab77.wav"
+      "voice_file": "outputs/narration/shot_10_t4687b8970f.wav"
     }
   ],
   "end_card": {
-    "start": 63.215,
+    "start": 61.36,
     "duration": 3,
     "text": "The Night Keeper\nMade with AI, from a true family story"
   },
-  "total": 66.215
+  "total": 64.36
 }
