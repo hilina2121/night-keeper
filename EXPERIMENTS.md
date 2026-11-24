@@ -115,3 +115,13 @@ Evidence: matching `"experiment": "E…"` lines in `runs.jsonl`.
 - **Change 2:** added "**with dark brown skin**" and "curly" hair to the father's description (one change, same seeds).
 - **Result 2:** 4/4 now read as an Ethiopian man. Side effect: they look slightly more photographic than the painted style; to be checked in the keyframes, where the style block and scene dominate.
 - **Lesson:** do not trust a demonym to carry appearance; describe what you need to see. Check every reference sheet for this bias before spending GPU time on it.
+
+## E9. Keyframes: do reference images copy the pose, and how much prompt control is left? (24 Nov)
+
+- **Setup:** 10 keyframes, flux-2-klein-4b, 1024², approved references sent as `input_image_N` for each character in the shot. Contact sheets: `outputs/keyframes/contact_sheet_v1.jpg`, `_v2.jpg`, `contact_sheet.jpg` (v3).
+- **v1 result:** identity carried over well (same coat, same girl), but **the pose was copied too**: the girl stands facing the camera in shots 5 and 6 (as in her reference), instead of walking away from the camera (5) or sitting and writing (6). Shot 7 (no reference) drew a **short jacket**, breaking the coat motif.
+- **Hypothesis:** the instruction "Keep each person exactly as in the reference" tells the model to copy everything; limiting it to "face, hair, skin tone and clothes; pose and camera follow the description" frees the pose. Separately, "long knee-length overcoat ... visible down to its hem" fixes shot 7.
+- **v2 result:** poses fixed in 4 (walking), 5 (through the gate), 6 (sitting, writing), 8 (at the laptop); shot 7 now a long coat. **Regressions:** shot 3 turned into a close-up of the father's **face** (the new wording made the face important), and the girl's **skin got lighter** in 5 and 6.
+- **v3 change:** shot 3 has no character reference and asks for "hand ... no face in the frame"; the child's description gets "with dark brown skin".
+- **v3 result:** shot 3 fixed (hand on the coat, no face). The girl in 5 and 6 is **still lighter than her reference**; shot 5 lost the from-behind framing again. Only 3 images were regenerated: the cache kept the other 7.
+- **Lessons:** (1) reference images transfer pose as well as identity unless told otherwise; (2) every prompt change has side effects on other shots, so change one thing and review the whole contact sheet; (3) skin-tone drift toward lighter is a repeated bias of this model (see E8) and needs checking on every shot with a person.

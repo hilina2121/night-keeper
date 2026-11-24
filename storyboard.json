@@ -10,15 +10,15 @@
   "characters": {
     "father": {
       "description": "an Ethiopian man in his fifties with dark brown skin, slim, short greying curly hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow",
-      "reference_image": null
+      "reference_image": "outputs/refs/father/cand4_ccbe2daaf2.jpg"
     },
     "child": {
-      "description": "an Ethiopian girl about eight years old in a clean blue school uniform with braided hair, carrying a small school bag",
-      "reference_image": null
+      "description": "an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag",
+      "reference_image": "outputs/refs/child/cand1_eb981f6909.jpg"
     },
     "adult_me": {
       "description": "an Ethiopian woman, 27 years old, in a plain white blouse, hair tied back, seen in profile",
-      "reference_image": null
+      "reference_image": "outputs/refs/adult_me/cand4_6611f5d77d.jpg"
     }
   },
   "narration": {
@@ -92,13 +92,11 @@
     },
     {
       "id": 3,
-      "reason": "The coat motif, and a breath of music after the opening",
+      "reason": "The coat motif, and a breath of music after the opening. Hands only: his face stays hidden (ETHICS.md)",
       "size": "close-up",
       "camera": "static, shallow depth of field",
-      "characters": [
-        "father"
-      ],
-      "image_prompt": "close-up of a worn dark-green wool coat sleeve with a brass button and a tired hand resting on the knee, lamp light",
+      "characters": [],
+      "image_prompt": "close-up of a tired dark-brown-skinned hand resting on the knee of a long worn dark-green wool overcoat with a brass button on the sleeve, no face in the frame, lamp light",
       "motion_prompt": "fixed camera, the fingers move slightly, dust drifts in the lamp light",
       "narration": "",
       "min_duration_s": 4,
@@ -153,7 +151,7 @@
       "size": "insert",
       "camera": "static",
       "characters": [],
-      "image_prompt": "a worn dark-green wool coat with brass buttons hanging on a nail on the mud wall of a small home, warm lamp light",
+      "image_prompt": "a long knee-length worn dark-green wool overcoat with brass buttons hanging on a nail on the mud wall of a small home, the whole coat visible down to its hem, warm lamp light",
       "motion_prompt": "fixed camera, the lamp light flickers softly on the coat",
       "narration": "He never told me what it cost him.",
       "min_duration_s": 6,

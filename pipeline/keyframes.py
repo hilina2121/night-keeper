@@ -123,7 +123,10 @@ def run_refs(only: str | None = None) -> None:
 def shot_prompt(sb: dict, shot: dict) -> str:
     who = " ".join(f"The {c.replace('_', ' ')} is {sb['characters'][c]['description']}."
                    for c in shot.get("characters", []))
-    keep = " Keep each person exactly as in the reference image(s)." if shot.get("characters") else ""
+    # v1 said "Keep each person exactly as in the reference image(s)" and the model also copied
+    # the reference POSE (girl standing in the classroom, shot 6). v2 limits what is copied (E9).
+    keep = (" From the reference image(s) take only the face, hair, skin tone and clothes;"
+            " the pose, action and camera angle must follow this description.") if shot.get("characters") else ""
     return f"{shot['image_prompt']}. {who}{keep} {shot['size']} shot. {sb['style_block']}"
 
 

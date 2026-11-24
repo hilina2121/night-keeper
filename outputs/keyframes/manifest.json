@@ -1,0 +1,73 @@
+{
+  "1": {
+    "file": "outputs/keyframes/shot_01_9ae9fe288e.jpg",
+    "hash": "9ae9fe288e",
+    "prompt": "a quiet African city at night seen from above, one large shopping mall glowing softly in the centre, empty streets, a few distant lights.  extreme wide shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": []
+  },
+  "2": {
+    "file": "outputs/keyframes/shot_02_80cb55cf74.jpg",
+    "hash": "80cb55cf74",
+    "prompt": "the father seen from behind, sitting on a plastic chair beside the large closed glass doors of a mall at night, a single lamp above him. The father is an Ethiopian man in his fifties with dark brown skin, slim, short greying curly hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. wide shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": [
+      "outputs/refs/father/cand4_ccbe2daaf2.jpg"
+    ]
+  },
+  "3": {
+    "file": "outputs/keyframes/shot_03_bdf21fd016.jpg",
+    "hash": "bdf21fd016",
+    "prompt": "close-up of a tired dark-brown-skinned hand resting on the knee of a long worn dark-green wool overcoat with a brass button on the sleeve, no face in the frame, lamp light.  close-up shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": []
+  },
+  "4": {
+    "file": "outputs/keyframes/shot_04_45451ff0e6.jpg",
+    "hash": "45451ff0e6",
+    "prompt": "the father walking home alone along a dusty road at sunrise, the city behind him, long shadows, golden light. The father is an Ethiopian man in his fifties with dark brown skin, slim, short greying curly hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. wide shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": [
+      "outputs/refs/father/cand4_ccbe2daaf2.jpg"
+    ]
+  },
+  "5": {
+    "file": "outputs/keyframes/shot_05_da84a6f7ba.jpg",
+    "hash": "da84a6f7ba",
+    "prompt": "the father and a small girl holding hands, seen from behind, walking toward an open school gate in the morning. The father is an Ethiopian man in his fifties with dark brown skin, slim, short greying curly hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow. The child is an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. medium shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": [
+      "outputs/refs/father/cand4_ccbe2daaf2.jpg",
+      "outputs/refs/child/cand1_eb981f6909.jpg"
+    ]
+  },
+  "6": {
+    "file": "outputs/keyframes/shot_06_be43952745.jpg",
+    "hash": "be43952745",
+    "prompt": "the girl sitting at a wooden desk in a bright classroom, writing carefully in an exercise book, morning light from a window. The child is an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. medium close-up shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": [
+      "outputs/refs/child/cand1_eb981f6909.jpg"
+    ]
+  },
+  "7": {
+    "file": "outputs/keyframes/shot_07_62be5916b0.jpg",
+    "hash": "62be5916b0",
+    "prompt": "a long knee-length worn dark-green wool overcoat with brass buttons hanging on a nail on the mud wall of a small home, the whole coat visible down to its hem, warm lamp light.  insert shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": []
+  },
+  "8": {
+    "file": "outputs/keyframes/shot_08_b722ec3db6.jpg",
+    "hash": "b722ec3db6",
+    "prompt": "the young woman sitting at an office desk with a laptop at dusk, looking out of a tall window at the city. The adult me is an Ethiopian woman, 27 years old, in a plain white blouse, hair tied back, seen in profile. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. medium shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": [
+      "outputs/refs/adult_me/cand4_6611f5d77d.jpg"
+    ]
+  },
+  "9": {
+    "file": "outputs/keyframes/shot_09_e018075414.jpg",
+    "hash": "e018075414",
+    "prompt": "a small old mud house with a rusty tin roof and a wooden door, at the edge of a town, late afternoon light.  wide shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": []
+  },
+  "10": {
+    "file": "outputs/keyframes/shot_10_0d833c8f54.jpg",
+    "hash": "0d833c8f54",
+    "prompt": "the same plot rebuilt as a modest new house with clean walls and a new roof, a worn dark-green wool coat hanging by the new door, warm golden dream-like light.  wide shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": []
+  }
+}
