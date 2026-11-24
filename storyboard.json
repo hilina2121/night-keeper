@@ -1,0 +1,200 @@
+{
+  "title": "The Night Keeper",
+  "version": "v1",
+  "logline": "My father guarded a mall at night so I could study by day, and one day I will rebuild his house.",
+  "aspect_ratios": [
+    "9:16",
+    "16:9"
+  ],
+  "style_block": "warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+  "characters": {
+    "father": {
+      "description": "an Ethiopian man in his fifties, slim, short greying hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow",
+      "reference_image": null
+    },
+    "child": {
+      "description": "an Ethiopian girl about eight years old in a clean blue school uniform with braided hair, carrying a small school bag",
+      "reference_image": null
+    },
+    "adult_me": {
+      "description": "an Ethiopian woman, 27 years old, in a plain white blouse, hair tied back, seen in profile",
+      "reference_image": null
+    }
+  },
+  "narration": {
+    "model": "gemini-2.5-flash-preview-tts",
+    "fallback_models": [],
+    "voice": "Sulafat",
+    "style": "warm (via voice choice; the style text is not sent, see EXPERIMENTS E2)",
+    "language": "en",
+    "gap_s": 1.2
+  },
+  "music": {
+    "chosen": null,
+    "duck": {
+      "threshold": 0.02,
+      "ratio": 6,
+      "attack_ms": 300,
+      "release_ms": 1500
+    },
+    "cues": [
+      {
+        "id": "night",
+        "from_shot": 1,
+        "to_shot": 7,
+        "caption": "instrumental, slow and tender, solo krar and soft strings, sparse, warm, night-time, Ethiopian pentatonic, no drums",
+        "bpm": 66,
+        "key": "A minor",
+        "intent": "Quiet weight of the night shift; leave room for the voice"
+      },
+      {
+        "id": "promise",
+        "from_shot": 8,
+        "to_shot": 10,
+        "caption": "instrumental, hopeful, the same krar theme returning with gentle piano and warm strings, building softly, no drums",
+        "bpm": 66,
+        "key": "C major",
+        "intent": "Lift into the promise; the theme returns so the ending feels like home"
+      }
+    ]
+  },
+  "shots": [
+    {
+      "id": 1,
+      "reason": "Establishes place and time: the city sleeps, he doesn't",
+      "size": "extreme wide",
+      "camera": "slow push-in",
+      "characters": [],
+      "image_prompt": "a quiet African city at night seen from above, one large shopping mall glowing softly in the centre, empty streets, a few distant lights",
+      "motion_prompt": "the camera pushes in very slowly toward the mall, lights flicker gently",
+      "narration": "Every night, while the city slept, my father kept watch over a mall that was not his.",
+      "min_duration_s": 8,
+      "seed": 101
+    },
+    {
+      "id": 2,
+      "reason": "Introduces him without showing a real face; he looks small next to the building",
+      "size": "wide",
+      "camera": "static",
+      "characters": [
+        "father"
+      ],
+      "image_prompt": "the father seen from behind, sitting on a plastic chair beside the large closed glass doors of a mall at night, a single lamp above him",
+      "motion_prompt": "fixed camera, his shoulders rise with a slow breath, the lamp light flickers softly",
+      "narration": "He sat by the doors in his old coat, through the long night shift.",
+      "min_duration_s": 5,
+      "seed": 102
+    },
+    {
+      "id": 3,
+      "reason": "The coat motif, and a breath of music after the opening",
+      "size": "close-up",
+      "camera": "static, shallow depth of field",
+      "characters": [
+        "father"
+      ],
+      "image_prompt": "close-up of a worn dark-green wool coat sleeve with a brass button and a tired hand resting on the knee, lamp light",
+      "motion_prompt": "fixed camera, the fingers move slightly, dust drifts in the lamp light",
+      "narration": "",
+      "min_duration_s": 4,
+      "seed": 103
+    },
+    {
+      "id": 4,
+      "reason": "Morning after a full night; tiredness",
+      "size": "wide",
+      "camera": "slow pan right",
+      "characters": [
+        "father"
+      ],
+      "image_prompt": "the father walking home alone along a dusty road at sunrise, the city behind him, long shadows, golden light",
+      "motion_prompt": "the camera pans slowly to follow him, he walks slowly away",
+      "narration": "In the morning he came home tired, and still he made sure I went to school.",
+      "min_duration_s": 5,
+      "seed": 104
+    },
+    {
+      "id": 5,
+      "reason": "The trade-off made visible: his night buys my day",
+      "size": "medium",
+      "camera": "static, from behind",
+      "characters": [
+        "father",
+        "child"
+      ],
+      "image_prompt": "the father and a small girl holding hands, seen from behind, walking toward an open school gate in the morning",
+      "motion_prompt": "fixed camera, they walk slowly toward the gate",
+      "narration": "A good school.",
+      "min_duration_s": 3.5,
+      "seed": 105
+    },
+    {
+      "id": 6,
+      "reason": "What the money bought",
+      "size": "medium close-up",
+      "camera": "slow push-in",
+      "characters": [
+        "child"
+      ],
+      "image_prompt": "the girl sitting at a wooden desk in a bright classroom, writing carefully in an exercise book, morning light from a window",
+      "motion_prompt": "the camera pushes in gently, her hand writes slowly",
+      "narration": "A school he could not afford, until he decided he could.",
+      "min_duration_s": 4,
+      "seed": 106
+    },
+    {
+      "id": 7,
+      "reason": "\"He never told me what it cost him\": the coat at rest",
+      "size": "insert",
+      "camera": "static",
+      "characters": [],
+      "image_prompt": "a worn dark-green wool coat with brass buttons hanging on a nail on the mud wall of a small home, warm lamp light",
+      "motion_prompt": "fixed camera, the lamp light flickers softly on the coat",
+      "narration": "He never told me what it cost him.",
+      "min_duration_s": 6,
+      "seed": 107
+    },
+    {
+      "id": 8,
+      "reason": "The payoff, but \"not yet\"",
+      "size": "medium",
+      "camera": "slow push-in",
+      "characters": [
+        "adult_me"
+      ],
+      "image_prompt": "the young woman sitting at an office desk with a laptop at dusk, looking out of a tall window at the city",
+      "motion_prompt": "the camera pushes in slowly, she turns her head toward the window",
+      "narration": "Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.",
+      "min_duration_s": 7,
+      "seed": 108
+    },
+    {
+      "id": 9,
+      "reason": "Grounds the promise in a real place",
+      "size": "wide",
+      "camera": "static",
+      "characters": [],
+      "image_prompt": "a small old mud house with a rusty tin roof and a wooden door, at the edge of a town, late afternoon light",
+      "motion_prompt": "fixed camera, light wind moves the grass, a thin cloud passes",
+      "narration": "Because one day, I will rebuild his house.",
+      "min_duration_s": 6,
+      "seed": 109
+    },
+    {
+      "id": 10,
+      "reason": "The promise; the coat motif comes home",
+      "size": "wide",
+      "camera": "slow push-in",
+      "characters": [],
+      "image_prompt": "the same plot rebuilt as a modest new house with clean walls and a new roof, a worn dark-green wool coat hanging by the new door, warm golden dream-like light",
+      "motion_prompt": "the camera pushes in slowly toward the door, warm light glows",
+      "narration": "Abba, this is my promise.",
+      "min_duration_s": 7,
+      "seed": 110
+    }
+  ],
+  "end_card": {
+    "text": "The Night Keeper\nMade with AI, from a true family story",
+    "duration_s": 3
+  }
+}

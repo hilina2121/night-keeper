@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "storyboard.schema.json",
+  "title": "Heritage short storyboard",
+  "description": "The contract between every pipeline stage. Each stage reads this file and writes to outputs/.",
+  "type": "object",
+  "required": ["title", "version", "aspect_ratios", "style_block", "characters", "narration", "music", "shots", "end_card"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "description": "Bump when the story changes after a user test, e.g. v1 -> v2"},
+    "logline": {"type": "string"},
+    "aspect_ratios": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"enum": ["9:16", "16:9"]}
+    },
+    "style_block": {"type": "string", "minLength": 10, "description": "Appended to every image prompt to keep the look consistent"},
+    "characters": {
+      "type": "object",
+      "description": "Character sheet: the same description is injected into every prompt that uses the character",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {"type": "string", "minLength": 10},
+          "reference_image": {"type": ["string", "null"], "description": "Path to the approved golden reference, set after the reference-sheet stage"}
+        }
+      }
+    },
+    "narration": {
+      "type": "object",
+      "required": ["model", "voice", "style", "language"],
+      "additionalProperties": false,
+      "properties": {
+        "model": {"type": "string"},
+        "fallback_models": {"type": "array", "items": {"type": "string"}, "description": "Tried in order when the main model's daily quota is used up"},
+        "voice": {"type": "string"},
+        "style": {"type": "string", "description": "Plain-language delivery instruction, e.g. calm, warm, unhurried"},
+        "language": {"type": "string"},
+        "gap_s": {"type": "number", "minimum": 0, "maximum": 3, "default": 0.6, "description": "Silence after each line"}
+      }
+    },
+    "music": {
+      "type": "object",
+      "required": ["cues"],
+      "additionalProperties": false,
+      "properties": {
+        "chosen": {"type": ["string", "null"], "description": "Path to the chosen score; null means use placeholder music"},
+        "duck": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "threshold": {"type": "number"}, "ratio": {"type": "number"},
+            "attack_ms": {"type": "number"}, "release_ms": {"type": "number"}
+          }
+        },
+        "cues": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "from_shot", "to_shot", "caption", "intent"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"type": "string"},
+              "from_shot": {"type": "integer", "minimum": 1},
+              "to_shot": {"type": "integer", "minimum": 1},
+              "caption": {"type": "string", "description": "ACE-Step caption: style, mood, instruments, texture"},
+              "bpm": {"type": "integer", "minimum": 40, "maximum": 200},
+              "key": {"type": "string"},
+              "intent": {"type": "string", "description": "What the music should do emotionally (spotting note)"}
+            }
+          }
+        }
+      }
+    },
+    "shots": {
+      "type": "array", "minItems": 8, "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": ["id", "reason", "size", "camera", "image_prompt", "motion_prompt", "narration", "min_duration_s", "seed"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "integer", "minimum": 1},
+          "reason": {"type": "string", "minLength": 5, "description": "Why this shot exists"},
+          "size": {"enum": ["extreme wide", "wide", "medium", "medium close-up", "close-up", "extreme close-up", "insert"]},
+          "camera": {"type": "string"},
+          "characters": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "image_prompt": {"type": "string", "minLength": 10, "description": "Subject and setting; style_block and character descriptions are added by the keyframes stage"},
+          "motion_prompt": {"type": "string", "description": "Only motion and camera; the keyframe already holds the subject"},
+          "narration": {"type": "string", "description": "Line spoken over this shot; empty string for a silent beat"},
+          "min_duration_s": {"type": "number", "minimum": 1, "maximum": 15, "description": "Shot is at least this long, longer if its narration needs it"},
+          "seed": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "end_card": {
+      "type": "object",
+      "required": ["text", "duration_s"],
+      "additionalProperties": false,
+      "properties": {
+        "text": {"type": "string", "pattern": "(?i)AI"},
+        "duration_s": {"type": "number", "minimum": 2, "maximum": 6}
+      }
+    }
+  }
+}
