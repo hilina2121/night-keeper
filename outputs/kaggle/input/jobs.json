@@ -1,0 +1,19 @@
+{
+  "jobs": [
+    {
+      "shot": 4,
+      "hash": "16bfdc858c",
+      "keyframe": "shot_04_45451ff0e6.jpg",
+      "prompt": "the camera pans slowly to follow him, he walks slowly away, warm hand-painted illustration, gentle slow natural motion, stable camera",
+      "negative_prompt": "blurry, distorted, morphing face, deformed hands, extra limbs, flicker, jitter, fast motion, text, watermark, logo",
+      "seed": 104,
+      "out": "shot_04_16bfdc858c.mp4",
+      "width": 640,
+      "height": 640,
+      "num_frames": 97,
+      "fps": 24,
+      "steps": 30,
+      "guidance": 5.0
+    }
+  ]
+}

@@ -53,3 +53,9 @@ What broke, what I tried, what fixed it. Newest at the bottom. Evidence is in `r
 - **Why:** inside line 6 ("Today I work for a good company. I can help him now. But I am not where I want to be. Not yet.") the narrator pauses between sentences about as long as between lines.
 - **Tried:** the same splitter on a synthetic take (v1 lines + 0.7 s silences) worked perfectly, which hid the problem.
 - **Fix:** align the script to Whisper word timestamps (EXPERIMENTS E6). No extra TTS request was needed: the take was cached, only the cut changed.
+
+## F10. Kaggle CLI on Windows + Python 3.14 (24 Nov)
+- **What broke (1):** `kaggle` 2.2.5 crashed on import: `ModuleNotFoundError: No module named 'six'` (a dependency it does not declare, missing on Python 3.14). **Fix:** `pip install six`; added `kaggle` and `six` to `requirements.txt`.
+- **What broke (2):** the first `python -m pipeline shots` crashed while reading the CLI's output: `UnicodeDecodeError: 'charmap' codec can't decode byte 0x8f`. Windows decodes subprocess output as cp1252 and the upload progress bar uses Unicode block characters. **Fix:** read the CLI output as UTF-8 with `errors="replace"`.
+- **Also found:** `.env.example` had disappeared (renamed to `.env` during setup instead of copied), so a fresh clone would not know which keys to set. Recreated, with `KAGGLE_USERNAME` added.
+- **New token format:** Kaggle now issues API *tokens* (`KAGGLE_API_TOKEN` env var) instead of the legacy `kaggle.json`; the CLI accepted the token directly.

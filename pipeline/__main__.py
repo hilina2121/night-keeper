@@ -6,6 +6,9 @@
     python -m pipeline refs            character reference candidates (pick one per character)
     python -m pipeline keyframes       one image per shot (cached: only changed shots regenerate)
     python -m pipeline keyframes --shot 5 --variants 3   candidates for one shot; pick = set its seed
+    python -m pipeline shots           animate keyframes on a Kaggle GPU (only shots without a clip)
+    python -m pipeline shots-status    is the Kaggle run finished?
+    python -m pipeline shots-fetch     download finished clips and merge their logs into runs.jsonl
     python -m pipeline all             everything above that is ready, in order
 """
 from __future__ import annotations
@@ -18,7 +21,7 @@ from pipeline.storyboard import StoryboardError, load
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="python -m pipeline")
-    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "all"])
+    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "all"])
     p.add_argument("--shot", type=int, help="narration/keyframes: only regenerate this shot")
     p.add_argument("--character", help="refs: only this character")
     p.add_argument("--variants", type=int, help="keyframes --shot N: make this many candidates to pick from")
@@ -54,6 +57,18 @@ def main() -> None:
             keyframes.run_variants(args.shot, args.variants)
         else:
             keyframes.run(only_shot=args.shot)
+
+    if args.command == "shots":
+        from pipeline import shots
+        print("[shots]")
+        shots.run(only_shot=args.shot)
+    if args.command == "shots-status":
+        from pipeline import shots
+        shots.status()
+    if args.command == "shots-fetch":
+        from pipeline import shots
+        print("[shots fetch]")
+        shots.fetch()
 
 
 if __name__ == "__main__":
