@@ -60,7 +60,7 @@ Evidence: matching `"experiment": "E…"` lines in `runs.jsonl`.
 - **E4b, spelling audition:** same sentence ("___, this is my promise."), same voice, four spellings: Aba, Ahbah, Ah-ba, Abbah (`python -m pipeline.spelling_audition`, files in `outputs/spelling_audition/`).
   Not perfectly fair: the main model's quota ran out, so Aba/Ahbah came from `gemini-3.8-flash-lite-tts` and Ah-ba/Abbah from `gemini-2.5-flash-preview-tts`.
 - **Result:** I chose **"Aba"**: it is the closest to how I say my father's name.
-- **Decision:** shot 10 `tts_text` = "Aba, this is my promise." (subtitle stays "Abba"). The one take was regenerated with it (1 request, `gemini-3.8-flash-tts`); radio cut = 66.5 s.
+- **Decision:** shot 10 `tts_text` = "Aba, this is my promise." (subtitle stays "Abba"). The one take was regenerated with it (1 request, `gemini-3.8-flash-tts`); radio cut = 66.5 s. **Ear check in the full take: correct** (24 Nov).
 
 ## E5. One take vs one call per line: does the voice stay continuous? (24 Nov)
 
@@ -88,3 +88,30 @@ Evidence: matching `"experiment": "E…"` lines in `runs.jsonl`.
 - **Change:** cut using Whisper (`whisper-large-v3-turbo`) word timestamps instead. Script words are matched to heard words with `difflib`, so one misheard word does not shift the rest; each line runs from just before its first word to just after its last.
 - **Result:** 99% of words matched; every shot between 2.3 and 3.8 words/s (plausible speech). The pause method stays as a fallback, and the cut is cached in `take_<hash>.spans.json`.
 - **Lesson:** a synthetic test passed because I built the test data with the assumption I was testing. Test on real output.
+
+## E7. FLUX.2 klein on Workers AI: is the seed repeatable, and do reference images work? (24 Nov)
+
+- **Why:** the keyframes stage needs (a) reproducible images and (b) the same father / girl / woman in every shot.
+- **Hypothesis:** `@cf/black-forest-labs/flux-2-klein-4b` (Apache 2.0) gives the same image for the same seed, and an `input_image_0` steers a new image toward the reference.
+- **Change:** same prompt (coat on a mud wall), 768×768: seed 7 twice, seed 8 once; then a new prompt ("the same coat beside the door of a new house") with the smoke-test image as `input_image_0`. Inputs are sent as multipart/form-data (the JSON schema of the FLUX.2 models only has a `multipart` field).
+- **Result:**
+
+  | Run | Latency | Result |
+  |---|---|---|
+  | seed 7 (a) | 7.9 s | green coat, lamp on the right |
+  | seed 7 (b) | 10.9 s | **different image**: same idea, different lamp and folds (md5 differs) |
+  | seed 8 | 9.0 s | similar composition |
+  | reference + new prompt | 4.6 s | kept the **long dark coat and lamp hook from the reference**, moved them to a new wooden door |
+
+- **Conclusions:** the seed only nudges the result; it is **not reproducible** on this endpoint, so a run is reproducible only through the **cache** (every image saved under a hash of its inputs and reused). Reference images **do** carry identity (shape, colour, details) into a new scene, so the reference sheet is worth it.
+- **Side note:** without the word "long", klein drew a short jacket; character descriptions must be explicit.
+- **Decision:** keyframes = `flux-2-klein-4b` + character references; cache every output. Evidence: `runs.jsonl` stage `experiment:klein`; images in `outputs/experiments/e7_klein/`.
+
+## E8. Reference sheet: does "Ethiopian" in the prompt give an Ethiopian-looking father? (24 Nov)
+
+- **Hypothesis:** the character description "an Ethiopian man in his fifties..." is enough to get the right skin tone and features.
+- **Change:** 4 reference candidates per character (`python -m pipeline refs`, seeds 1-4, 1024², flux-2-klein-4b, no input image).
+- **Result:** the girl and the woman (both described as "Ethiopian") came out right in 4/4. The **father came out light-skinned, European-looking in 4/4** (`outputs/refs/father_candidates_v1_lightskin.jpg`). A plausible cause: "grey-haired man in a long wool coat" pulls the model toward a European stereotype that outweighs one nationality word.
+- **Change 2:** added "**with dark brown skin**" and "curly" hair to the father's description (one change, same seeds).
+- **Result 2:** 4/4 now read as an Ethiopian man. Side effect: they look slightly more photographic than the painted style; to be checked in the keyframes, where the style block and scene dominate.
+- **Lesson:** do not trust a demonym to carry appearance; describe what you need to see. Check every reference sheet for this bias before spending GPU time on it.

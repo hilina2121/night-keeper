@@ -98,6 +98,44 @@ def http_json(url: str, *, method: str = "GET", headers: dict | None = None,
     raise last_err  # type: ignore[misc]
 
 
+def http_multipart(url: str, *, fields: dict, files: dict[str, Path] | None = None,
+                   headers: dict | None = None, retries: int = 3, timeout: int = 180):
+    """POST multipart/form-data (FLUX.2 on Workers AI takes its inputs this way).
+
+    `fields` are text values; `files` maps a field name to an image path. Same retry rules as http_json.
+    Returns (parsed_json, attempts_used).
+    """
+    import uuid
+    boundary = uuid.uuid4().hex
+    parts: list[bytes] = []
+    for k, v in fields.items():
+        parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode())
+    for k, p in (files or {}).items():
+        mime = "image/png" if p.suffix.lower() == ".png" else "image/jpeg"
+        parts.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"; filename="{p.name}"\r\n'
+                     f"Content-Type: {mime}\r\n\r\n".encode() + p.read_bytes() + b"\r\n")
+    parts.append(f"--{boundary}--\r\n".encode())
+    data = b"".join(parts)
+    hdrs = {"Content-Type": f"multipart/form-data; boundary={boundary}", **(headers or {})}
+    last_err: Exception | None = None
+    for attempt in range(1, retries + 2):
+        req = urllib.request.Request(url, data=data, headers=hdrs, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8")), attempt
+        except urllib.error.HTTPError as e:
+            last_err = HttpError(e.code, e.read().decode("utf-8", errors="replace"))
+            last_err.attempts = attempt  # type: ignore[attr-defined]
+            if e.code not in RETRYABLE or is_daily_quota(last_err):
+                raise last_err
+        except (urllib.error.URLError, TimeoutError) as e:
+            last_err = e
+            last_err.attempts = attempt  # type: ignore[attr-defined]
+        if attempt <= retries:
+            time.sleep(2 ** attempt)
+    raise last_err  # type: ignore[misc]
+
+
 def log_call(*, stage: str, provider: str, model: str, params: dict | None = None,
              seed: int | None = None, latency_s: float, status: str,
              cost_usd: float = 0.0, attempts: int = 1, output: str | None = None,
