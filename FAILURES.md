@@ -59,3 +59,13 @@ What broke, what I tried, what fixed it. Newest at the bottom. Evidence is in `r
 - **What broke (2):** the first `python -m pipeline shots` crashed while reading the CLI's output: `UnicodeDecodeError: 'charmap' codec can't decode byte 0x8f`. Windows decodes subprocess output as cp1252 and the upload progress bar uses Unicode block characters. **Fix:** read the CLI output as UTF-8 with `errors="replace"`.
 - **Also found:** `.env.example` had disappeared (renamed to `.env` during setup instead of copied), so a fresh clone would not know which keys to set. Recreated, with `KAGGLE_USERNAME` added.
 - **New token format:** Kaggle now issues API *tokens* (`KAGGLE_API_TOKEN` env var) instead of the legacy `kaggle.json`; the CLI accepted the token directly.
+
+## F11. Kaggle GPU queue: the Wan test sat in "QUEUED" for 30+ minutes (24 Nov, ~21:20 EAT)
+- **What happened:** `python -m pipeline shots --shot 4` uploaded the job and pushed the kernel at 21:19; the kernel stayed `KernelWorkerStatus.QUEUED` (waiting for a free T4) for more than half an hour. Queued time does not use the 30 h quota.
+- **Why it matters:** the brief's warning was right: the binding constraint is the GPU queue, not money. A plan that waits for video before editing would stall here.
+- **Worked around:** built the assembly stage meanwhile with the brief's fallback: every shot without a Wan clip is animated with a Ken Burns move chosen from its `camera` field. A complete rough cut exists before any video model has run; Wan clips replace stills automatically when `shots-fetch` brings them in (the assembly picks the clip whose hash matches the current keyframe and motion prompt).
+
+## F12. 16:9 export cut off heads (24 Nov)
+- **What broke:** the first 16:9 export centre-cropped the square keyframes to 1440x810. Shot 4 lost the father's head; shot 8 lost the top of the frame.
+- **Fix:** for 16:9 the whole square is shown in the middle over a blurred, darkened copy of itself (a common way to fit square or vertical footage in a wide frame). 9:16 keeps the centre crop, which works because every keyframe was composed with the subject in the middle (style block: "subject centred in frame").
+- **Also measured:** first mix at **−15.5 LUFS**, −0.9 dBFS peak (target −14 / −1). Single-pass `loudnorm` undershoots when the end card is silent; to fix with two-pass loudnorm in the final mix.

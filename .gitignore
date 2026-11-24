@@ -10,3 +10,14 @@ __pycache__/
 # OS
 Thumbs.db
 .DS_Store
+
+# rebuilt in seconds from cached inputs, no model calls (python -m pipeline assemble)
+outputs/final/segments/
+outputs/final/master_square.mp4
+outputs/final/mix.wav
+outputs/final/concat.txt
+# drafts of the finished film: committed only at picture lock (every version would stay in history)
+outputs/final/*.mp4
+# copies made for the Kaggle upload (the sources are in outputs/keyframes and kaggle/)
+outputs/kaggle/input/
+outputs/kaggle/kernel/

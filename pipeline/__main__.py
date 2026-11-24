@@ -9,6 +9,7 @@
     python -m pipeline shots           animate keyframes on a Kaggle GPU (only shots without a clip)
     python -m pipeline shots-status    is the Kaggle run finished?
     python -m pipeline shots-fetch     download finished clips and merge their logs into runs.jsonl
+    python -m pipeline assemble        final film, 9:16 and 16:9 (Ken Burns for shots without a clip)
     python -m pipeline all             everything above that is ready, in order
 """
 from __future__ import annotations
@@ -21,7 +22,7 @@ from pipeline.storyboard import StoryboardError, load
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="python -m pipeline")
-    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "all"])
+    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "assemble", "all"])
     p.add_argument("--shot", type=int, help="narration/keyframes: only regenerate this shot")
     p.add_argument("--character", help="refs: only this character")
     p.add_argument("--variants", type=int, help="keyframes --shot N: make this many candidates to pick from")
@@ -69,6 +70,12 @@ def main() -> None:
         from pipeline import shots
         print("[shots fetch]")
         shots.fetch()
+
+
+    if args.command in ("assemble", "all"):
+        from pipeline import assemble
+        print("[assemble]")
+        assemble.run()
 
 
 if __name__ == "__main__":

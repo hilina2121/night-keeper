@@ -78,5 +78,6 @@ def srt(tl: dict) -> str:
             events.append((t, t + d + hold, _wrap(p)))
             t += d
     ec = tl["end_card"]
-    events.append((ec["start"] + 0.2, ec["start"] + ec["duration"], ec["text"]))
+    # {n5} = centred on screen (libass override tag): the end card text sits in the middle, not at the bottom.
+    events.append((ec["start"] + 0.2, ec["start"] + ec["duration"], "{\\an5}" + ec["text"]))
     return "\n".join(f"{i}\n{_ts(a)} --> {_ts(b)}\n{txt}\n" for i, (a, b, txt) in enumerate(events, 1))
