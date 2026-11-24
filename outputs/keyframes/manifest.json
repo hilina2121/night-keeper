@@ -28,21 +28,19 @@
     ]
   },
   "5": {
-    "file": "outputs/keyframes/shot_05_da84a6f7ba.jpg",
-    "hash": "da84a6f7ba",
-    "prompt": "the father and a small girl holding hands, seen from behind, walking toward an open school gate in the morning. The father is an Ethiopian man in his fifties with dark brown skin, slim, short greying curly hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow. The child is an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. medium shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "file": "outputs/keyframes/shot_05_ecb2fbd096.jpg",
+    "hash": "ecb2fbd096",
+    "prompt": "seen from behind, both with their backs to the camera and faces not visible: the father and a small girl with dark brown skin walking hand in hand toward an open school gate in the morning. The father is an Ethiopian man in his fifties with dark brown skin, slim, short greying curly hair, wearing a long worn dark-green wool coat with brass buttons, face mostly turned away or in shadow. The child is an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. medium shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
     "refs": [
       "outputs/refs/father/cand4_ccbe2daaf2.jpg",
       "outputs/refs/child/cand1_eb981f6909.jpg"
     ]
   },
   "6": {
-    "file": "outputs/keyframes/shot_06_be43952745.jpg",
-    "hash": "be43952745",
-    "prompt": "the girl sitting at a wooden desk in a bright classroom, writing carefully in an exercise book, morning light from a window. The child is an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag. From the reference image(s) take only the face, hair, skin tone and clothes; the pose, action and camera angle must follow this description. medium close-up shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
-    "refs": [
-      "outputs/refs/child/cand1_eb981f6909.jpg"
-    ]
+    "file": "outputs/keyframes/shot_06_d9c305d07b.jpg",
+    "hash": "d9c305d07b",
+    "prompt": "the girl, a dark-brown-skinned Ethiopian child with deep brown skin, sitting at a wooden desk in a simple classroom, writing carefully in an exercise book, soft warm side light. The child is an Ethiopian girl about eight years old with dark brown skin in a clean blue school uniform with braided hair, carrying a small school bag. medium close-up shot. warm hand-painted illustration, soft film grain, muted earth tones with amber lamp light, gentle and dignified mood, subject centred in frame, no text, no letters, no logos",
+    "refs": []
   },
   "7": {
     "file": "outputs/keyframes/shot_07_62be5916b0.jpg",

@@ -125,7 +125,7 @@
         "father",
         "child"
       ],
-      "image_prompt": "the father and a small girl holding hands, seen from behind, walking toward an open school gate in the morning",
+      "image_prompt": "seen from behind, both with their backs to the camera and faces not visible: the father and a small girl with dark brown skin walking hand in hand toward an open school gate in the morning",
       "motion_prompt": "fixed camera, they walk slowly toward the gate",
       "narration": "A good school.",
       "min_duration_s": 3.5,
@@ -139,11 +139,12 @@
       "characters": [
         "child"
       ],
-      "image_prompt": "the girl sitting at a wooden desk in a bright classroom, writing carefully in an exercise book, morning light from a window",
+      "image_prompt": "the girl, a dark-brown-skinned Ethiopian child with deep brown skin, sitting at a wooden desk in a simple classroom, writing carefully in an exercise book, soft warm side light",
       "motion_prompt": "the camera pushes in gently, her hand writes slowly",
       "narration": "A school he could not afford, until he decided he could.",
       "min_duration_s": 4,
-      "seed": 106
+      "seed": 2106,
+      "use_references": false
     },
     {
       "id": 7,

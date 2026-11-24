@@ -5,6 +5,7 @@
     python -m pipeline radio           narration + placeholder music on black (user test 1)
     python -m pipeline refs            character reference candidates (pick one per character)
     python -m pipeline keyframes       one image per shot (cached: only changed shots regenerate)
+    python -m pipeline keyframes --shot 5 --variants 3   candidates for one shot; pick = set its seed
     python -m pipeline all             everything above that is ready, in order
 """
 from __future__ import annotations
@@ -20,6 +21,7 @@ def main() -> None:
     p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "all"])
     p.add_argument("--shot", type=int, help="narration/keyframes: only regenerate this shot")
     p.add_argument("--character", help="refs: only this character")
+    p.add_argument("--variants", type=int, help="keyframes --shot N: make this many candidates to pick from")
     args = p.parse_args()
 
     try:
@@ -48,7 +50,10 @@ def main() -> None:
     if args.command in ("keyframes", "all"):
         from pipeline import keyframes
         print("[keyframes]")
-        keyframes.run(only_shot=args.shot)
+        if args.variants and args.shot:
+            keyframes.run_variants(args.shot, args.variants)
+        else:
+            keyframes.run(only_shot=args.shot)
 
 
 if __name__ == "__main__":

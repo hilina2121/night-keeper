@@ -120,14 +120,52 @@ def run_refs(only: str | None = None) -> None:
 
 # ---------------------------------------------------------------- keyframes
 
+def shot_refs(sb: dict, shot: dict) -> list[Path]:
+    """Reference images sent with a shot (none if the shot sets "use_references": false)."""
+    if not shot.get("use_references", True):
+        return []
+    return [ROOT / sb["characters"][c]["reference_image"] for c in shot.get("characters", [])]
+
+
 def shot_prompt(sb: dict, shot: dict) -> str:
     who = " ".join(f"The {c.replace('_', ' ')} is {sb['characters'][c]['description']}."
                    for c in shot.get("characters", []))
     # v1 said "Keep each person exactly as in the reference image(s)" and the model also copied
     # the reference POSE (girl standing in the classroom, shot 6). v2 limits what is copied (E9).
     keep = (" From the reference image(s) take only the face, hair, skin tone and clothes;"
-            " the pose, action and camera angle must follow this description.") if shot.get("characters") else ""
+            " the pose, action and camera angle must follow this description.")         if shot.get("characters") and shot.get("use_references", True) else ""
     return f"{shot['image_prompt']}. {who}{keep} {shot['size']} shot. {sb['style_block']}"
+
+
+VARIANT_SEED_STEP = 1000
+
+
+def run_variants(shot_id: int, n: int = 3) -> None:
+    """Make n candidates of one shot (seeds seed, seed+1000, ...) to choose from.
+
+    Each candidate is saved under exactly the name the normal run would use for that seed,
+    so choosing one = setting that shot's "seed" in storyboard.json; the next run is a cache hit.
+    """
+    load_env()
+    sb = load()
+    shot = next(s for s in sb["shots"] if s["id"] == shot_id)
+    refs = shot_refs(sb, shot)
+    prompt = shot_prompt(sb, shot)
+    images = []
+    for k in range(n):
+        seed = shot["seed"] + k * VARIANT_SEED_STEP
+        h = input_hash(MODEL, prompt, SIZE, seed, [file_hash(r) for r in refs])
+        out = KF_DIR / f"shot_{shot_id:02d}_{h}.jpg"
+        if out.exists():
+            print(f"  shot {shot_id:02d} seed {seed}: cached")
+        else:
+            print(f"  shot {shot_id:02d} seed {seed}: GENERATING")
+            flux(prompt, seed, out, refs, stage="keyframes:variants", shot=shot_id)
+        images.append(out)
+    sheet = KF_DIR / f"shot_{shot_id:02d}_variants.jpg"
+    contact_sheet(images, sheet, cols=n)
+    seeds = [shot["seed"] + k * VARIANT_SEED_STEP for k in range(n)]
+    print(f"  pick from {sheet.relative_to(ROOT).as_posix()} (left to right = seeds {seeds})")
 
 
 def run(only_shot: int | None = None) -> dict:
@@ -142,7 +180,7 @@ def run(only_shot: int | None = None) -> dict:
     manifest, new_calls, images = {}, 0, []
     for shot in sb["shots"]:
         sid = shot["id"]
-        refs = [ROOT / sb["characters"][c]["reference_image"] for c in shot.get("characters", [])]
+        refs = shot_refs(sb, shot)
         prompt = shot_prompt(sb, shot)
         h = input_hash(MODEL, prompt, SIZE, shot["seed"], [file_hash(r) for r in refs])
         out = KF_DIR / f"shot_{sid:02d}_{h}.jpg"

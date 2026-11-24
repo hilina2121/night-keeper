@@ -125,3 +125,22 @@ Evidence: matching `"experiment": "E…"` lines in `runs.jsonl`.
 - **v3 change:** shot 3 has no character reference and asks for "hand ... no face in the frame"; the child's description gets "with dark brown skin".
 - **v3 result:** shot 3 fixed (hand on the coat, no face). The girl in 5 and 6 is **still lighter than her reference**; shot 5 lost the from-behind framing again. Only 3 images were regenerated: the cache kept the other 7.
 - **Lessons:** (1) reference images transfer pose as well as identity unless told otherwise; (2) every prompt change has side effects on other shots, so change one thing and review the whole contact sheet; (3) skin-tone drift toward lighter is a repeated bias of this model (see E8) and needs checking on every shot with a person.
+
+## E10. Fixing shots 5 and 6: three seeds per shot, then one lighting hypothesis (24 Nov)
+
+- **Method:** new option `python -m pipeline keyframes --shot N --variants 3` makes candidates at seeds s, s+1000, s+2000, saved under the same hashed names a normal run would use, so **choosing = setting the shot's seed** and the next run is a cache hit. Brief's rule followed: three attempts per shot, then change approach.
+- **Shot 5** ("seen from behind, both with their backs to the camera and faces not visible ... girl with dark brown skin ..."): seed 105 got it right (father and daughter walking hand in hand through the gate, faces hidden). The other two seeds ignored "from behind". **Chosen: seed 105.** (`outputs/keyframes/shot_05_variants.jpg`)
+- **Shot 6, attempts 1-3** (skin tone written into the image prompt as well as the character sheet): pose right in 3/3, **skin still clearly lighter than the reference in 3/3** (`shot_06_variants_brightwindow.jpg`).
+- **Hypothesis:** the bright window backlight ("bright classroom, morning light from a window") washes the skin out.
+- **Change:** "a simple classroom ... soft warm side light", plus "deep brown skin". Same three seeds.
+- **Result:** marginally darker at best; still lighter than the reference in 3/3. **Hypothesis mostly rejected:** lighting is not the main cause.
+- **Status:** 6 attempts on shot 6. Next options: drop the reference image for this shot (test whether the reference, not the text, is what pulls the face toward a generic look), or accept the best candidate and document the limitation.
+
+## E11. Is the reference image what lightens the girl's skin? (24 Nov)
+
+- **Hypothesis:** in shot 6 the reference image, not the text or the light, pulls the face toward a lighter, generic look (E10 ruled out lighting).
+- **Change:** new per-shot switch `"use_references": false` (schema + keyframes stage). Shot 6 keeps the same text (character sheet description + "deep brown skin") but sends **no** input image. Same three seeds as E10.
+- **Result:** **3/3 now show a dark-brown-skinned Ethiopian girl** with braids, blue uniform and school bag (`outputs/keyframes/shot_06_variants.jpg` vs `shot_06_variants_brightwindow.jpg` / `_softlight.jpg`). Identity still reads as the same girl through the text (braids, uniform, bag); she appears only in shots 5 and 6, and in shot 5 from behind.
+- **Hypothesis confirmed.** Counter-intuitive: the reference sheet, which is supposed to *protect* identity, was the cause of the drift here, probably because a front-facing full-body reference gets re-rendered small and re-lit when the scene is a close seated pose.
+- **Decision:** shot 6 `use_references: false`, seed 2106 (medium close-up). Selecting it was a pure cache hit (0 new calls). References stay on for every other shot, where they keep the father's coat consistent.
+- **For the report:** this is the "suggested practice that did not beat my instinct" case: the reference sheet helped in 8 shots and hurt in 1.
