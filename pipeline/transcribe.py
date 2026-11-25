@@ -10,7 +10,14 @@ import sys
 import time
 from pathlib import Path
 
-from pipeline.common import http_json, load_env, log_call, require
+from pipeline.common import ROOT, http_json, load_env, log_call, require
+
+
+def _rel(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.name  # outside the project (e.g. a scratch file): log the name only
 
 MODEL = "@cf/openai/whisper-large-v3-turbo"
 
@@ -23,7 +30,7 @@ def transcribe(path: Path) -> str:
         method="POST", headers={"Authorization": f"Bearer {token}"},
         body={"audio": base64.b64encode(path.read_bytes()).decode("ascii"), "language": "en"})
     text = data["result"]["text"].strip()
-    log_call(stage="qa_transcribe", provider="cloudflare", model=MODEL, params={"file": path.as_posix()},
+    log_call(stage="qa_transcribe", provider="cloudflare", model=MODEL, params={"file": _rel(path)},
              latency_s=time.perf_counter() - t0, status="ok", attempts=attempts, transcript=text)
     return text
 
@@ -38,7 +45,7 @@ def words(path: Path) -> list[dict]:
         body={"audio": base64.b64encode(path.read_bytes()).decode("ascii"), "language": "en"})
     res = data["result"]
     ws = [w for seg in res.get("segments", []) for w in seg.get("words", [])]
-    log_call(stage="qa_align", provider="cloudflare", model=MODEL, params={"file": path.as_posix()},
+    log_call(stage="qa_align", provider="cloudflare", model=MODEL, params={"file": _rel(path)},
              latency_s=time.perf_counter() - t0, status="ok", attempts=attempts,
              transcript=res.get("text", "").strip(), n_words=len(ws))
     return ws
