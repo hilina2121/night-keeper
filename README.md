@@ -4,12 +4,15 @@ A 60–90 second AI-made short film about my father, who guarded a mall at night
 go to a good school, and the house I promised to rebuild for him. It is narrated in English,
 with an original score and English subtitles, in vertical (9:16) and horizontal (16:9).
 
+**Watch it:** [vertical 9:16](https://drive.google.com/file/d/1XfwsgiS4b-XWgquNyZnju9QvFQvI-KG2/view?usp=sharing) · [horizontal 16:9](https://drive.google.com/file/d/1rz88OmCAmEffNUe2orM4qd9GCsfO-dPi/view?usp=sharing) (66.5 s, Google Drive)
+
 This repository is the **studio that makes the film**: a pipeline that turns one file,
 [`storyboard.json`](storyboard.json), into narration, keyframes, moving shots, music and a finished edit.
 Change a line in the storyboard, run the pipeline again, and only what changed is regenerated.
 
-> Status (24 Nov 2026): narration, radio cut, reference sheet and keyframes are done. Moving shots are
-> running on Kaggle. Music and final assembly are next. See "Stages" below.
+> Status (25 Nov 2026): picture locked at storyboard v2. Narration, keyframes, the original ACE-Step score and the
+> final edit in both aspect ratios are done. Wan 2.2 could not run on the free T4s (FAILURES F14), so every shot
+> uses the brief's Ken Burns fallback; the stage still accepts clips if they are generated later.
 
 ## Quick start
 
@@ -51,7 +54,8 @@ and logs every model call to [`runs.jsonl`](runs.jsonl).
 | `python -m pipeline keyframes --shot 6 --variants 3` | Three candidates for one shot; pick one by setting that shot's `seed` | FLUX.2 klein 4B | Cloudflare |
 | `python -m pipeline shots` | Uploads keyframes that have no clip yet to Kaggle and starts Wan 2.2 image-to-video on GPU T4 x2 | Wan 2.2 TI2V-5B | Kaggle |
 | `python -m pipeline shots-status` / `shots-fetch` | Checks the Kaggle run / downloads the clips and merges their logs into `runs.jsonl` | | laptop |
-| `music`, `assemble` | *(next)* ACE-Step score; final edit in 9:16 and 16:9 with ducking, subtitles, end card | ACE-Step 1.5, FFmpeg | Kaggle, laptop |
+| `python -m pipeline music-hf` | 3 score candidates per cue on a Hugging Face Space (Kaggle route: `music`); choose one by setting the cue's `chosen_seed` | ACE-Step | HF ZeroGPU |
+| `python -m pipeline assemble` | Final edit in 9:16 and 16:9: Ken Burns or Wan clip per shot, score ducked under the voice, −14 LUFS, subtitles, AI end card | FFmpeg | laptop |
 
 ### Regenerate one shot (the walkthrough demo)
 
