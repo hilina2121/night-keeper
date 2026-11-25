@@ -32,7 +32,7 @@ N_CANDIDATES = 3
 XFADE_S = 3.0
 
 
-def cue_spans(sb: dict) -> list[dict]:
+def cue_spans(sb: dict, model: str = MODEL) -> list[dict]:
     tl = timeline.build(sb, json.loads(MANIFEST.read_text(encoding="utf-8")))
     shots = {s["id"]: s for s in tl["shots"]}
     out = []
@@ -41,7 +41,7 @@ def cue_spans(sb: dict) -> list[dict]:
         last = i == len(sb["music"]["cues"]) - 1
         end = tl["total"] if last else shots[cue["to_shot"]]["start"] + shots[cue["to_shot"]]["duration"]
         dur = round(end - start + (0 if last else XFADE_S), 1)
-        h = input_hash(MODEL, cue["caption"], cue.get("bpm"), cue.get("key"), dur)
+        h = input_hash(model, cue["caption"], cue.get("bpm"), cue.get("key"), dur)
         seeds = [300 + 10 * i + k for k in range(N_CANDIDATES)]
         out.append({"cue": cue["id"], "hash": h, "start": start, "duration": dur, "caption": cue["caption"],
                     "bpm": cue.get("bpm"), "key": cue.get("key", ""), "seeds": seeds,
@@ -132,7 +132,7 @@ def merge_logs(src: Path) -> int:
 
 def score_path(sb: dict) -> Path | None:
     """The joined score for the chosen candidates, or None if a cue has no choice yet."""
-    jobs = cue_spans(sb)
+    jobs = cue_spans(sb, sb["music"].get("model", MODEL))
     picks = [candidate(j, j["chosen_seed"]) if j["chosen_seed"] is not None else None for j in jobs]
     if not all(picks):
         return None
@@ -177,7 +177,7 @@ def _audio_paths(obj) -> list[str]:
     return list(dict.fromkeys(found))
 
 
-def run_hf() -> None:
+def run_hf_v15() -> None:
     """Same jobs as `music`, run on the official ACE-Step 1.5 Space (ZeroGPU A10G) via gradio_client.
 
     Used because Kaggle's GPU queue was unusable on 25 Nov (FAILURES F11, F13, F15).
@@ -199,7 +199,7 @@ def run_hf() -> None:
             continue
         import os
         load_env()
-        client = client or Client(HF_SPACE, verbose=False, hf_token=os.environ.get("HF_TOKEN") or None)
+        client = client or Client(HF_SPACE, verbose=False, token=os.environ.get("HF_TOKEN") or None)
         params = dict(selected_model=HF_MODEL, generation_mode="custom", param_4=job["caption"],
                       param_5="[Instrumental]", param_6=job["bpm"] or 0, param_7=job["key"] or "",
                       param_8="", param_10=8, param_12=False, param_13=",".join(str(s) for s in todo),
@@ -236,3 +236,65 @@ def run_hf() -> None:
                      params=params, latency_s=time.perf_counter() - t0, status="error",
                      error=f"{type(e).__name__}: {e}"[:800], cue=job["cue"])
             print(f"    FAILED: {type(e).__name__}: {str(e)[:300]}")
+
+
+# ---------------------------------------------------------------- route 3: ACE-Step v1 Space (works)
+V1_SPACE = "victor/ace-step-jam"  # official Spaces both broken on 25 Nov (F15, F16); MIT
+V1_MODEL = "ACE-Step via victor/ace-step-jam"
+
+
+def run_hf(only_one: bool = False) -> None:
+    """Score candidates on the ACE-Step v1 Space (ZeroGPU A10G, Apache 2.0), one call per seed.
+
+    The 1.5 Space could not load its own model on 25 Nov (FAILURES F15), so the film's score comes
+    from ACE-Step v1, the same team's previous open model. v1 has no bpm/key fields: they are
+    written into the tags. "[instrumental]" keeps vocals out.
+    """
+    import os
+    import time
+    from gradio_client import Client
+    from pipeline.common import log_call
+
+    load_env()
+    sb = load()
+    MUSIC_DIR.mkdir(parents=True, exist_ok=True)
+    client = None
+    for job in cue_spans(sb, V1_MODEL):
+        for seed in job["seeds"]:
+            if candidate(job, seed):
+                print(f"  cue {job['cue']:<8} seed {seed}: cached")
+                continue
+            client = client or Client(V1_SPACE, verbose=False, token=os.environ.get("HF_TOKEN") or None)
+            tags = f"{job['caption']}, {job['bpm']} bpm, {job['key']}"
+            params = dict(prompt=tags, lyrics="[instrumental]", audio_duration=job["duration"],
+                          infer_step=8, guidance_scale=7.0, seed=seed, lora_name_or_path="", lora_weight=0.8)
+            print(f"  cue {job['cue']:<8} seed {seed}: GENERATING {job['duration']}s")
+            t0 = time.perf_counter()
+            try:
+                res = client.predict(api_name="/generate", **params)
+                data_uri = next((x for x in (res if isinstance(res, (list, tuple)) else [res])
+                                 if isinstance(x, str) and x.startswith("data:audio")), None)
+                if data_uri:  # this Space returns the audio inline as a base64 data URI
+                    import base64
+                    head, b64 = data_uri.split(",", 1)
+                    ext = ".wav" if "wav" in head else ".mp3" if "mpeg" in head or "mp3" in head else ".flac"
+                    dst = MUSIC_DIR / f"{job['cue']}_{job['hash']}_s{seed}{ext}"
+                    dst.write_bytes(base64.b64decode(b64))
+                else:
+                    paths = _audio_paths(res)
+                    if not paths:
+                        raise RuntimeError(f"no audio in result: {str(res)[:300]}")
+                    dst = MUSIC_DIR / f"{job['cue']}_{job['hash']}_s{seed}{Path(paths[0]).suffix}"
+                    shutil.copy(paths[0], dst)
+                log_call(stage="music", provider="huggingface-space", model=f"{V1_SPACE}", params=params,
+                         seed=seed, latency_s=time.perf_counter() - t0, status="ok",
+                         output=dst.relative_to(ROOT).as_posix(), cue=job["cue"])
+                print(f"    -> {dst.relative_to(ROOT).as_posix()}  ({time.perf_counter() - t0:.0f}s)")
+            except Exception as e:
+                log_call(stage="music", provider="huggingface-space", model=f"{V1_SPACE}", params=params,
+                         seed=seed, latency_s=time.perf_counter() - t0, status="error",
+                         error=f"{type(e).__name__}: {e}"[:800], cue=job["cue"])
+                print(f"    FAILED: {type(e).__name__}: {str(e)[:300]}")
+                return
+            if only_one:
+                return

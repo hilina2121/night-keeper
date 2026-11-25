@@ -84,7 +84,7 @@ def main() -> None:
     if args.command == "music-hf":
         from pipeline import music
         print("[music via Hugging Face Space]")
-        music.run_hf()
+        music.run_hf(only_one=args.shot == 1)
     if args.command == "music-import":
         from pipeline import music
         music.import_outputs(args.folder or "outputs/kaggle/output")
