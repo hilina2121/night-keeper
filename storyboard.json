@@ -50,7 +50,8 @@
         "caption": "instrumental, slow and tender, solo krar and soft strings, sparse, warm, night-time, Ethiopian pentatonic, no drums",
         "bpm": 66,
         "key": "A minor",
-        "intent": "Quiet weight of the night shift; leave room for the voice"
+        "intent": "Quiet weight of the night shift; leave room for the voice",
+        "chosen_seed": 300
       },
       {
         "id": "promise",
@@ -59,9 +60,11 @@
         "caption": "instrumental, hopeful, the same krar theme returning with gentle piano and warm strings, building softly, no drums",
         "bpm": 66,
         "key": "C major",
-        "intent": "Lift into the promise; the theme returns so the ending feels like home"
+        "intent": "Lift into the promise; the theme returns so the ending feels like home",
+        "chosen_seed": 310
       }
-    ]
+    ],
+    "model": "ACE-Step via victor/ace-step-jam"
   },
   "shots": [
     {

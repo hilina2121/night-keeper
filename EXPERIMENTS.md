@@ -144,3 +144,12 @@ Evidence: matching `"experiment": "E…"` lines in `runs.jsonl`.
 - **Hypothesis confirmed.** Counter-intuitive: the reference sheet, which is supposed to *protect* identity, was the cause of the drift here, probably because a front-facing full-body reference gets re-rendered small and re-lit when the scene is a close seated pose.
 - **Decision:** shot 6 `use_references: false`, seed 2106 (medium close-up). Selecting it was a pure cache hit (0 new calls). References stay on for every other shot, where they keep the father's coat consistent.
 - **For the report:** this is the "suggested practice that did not beat my instinct" case: the reference sheet helped in 8 shots and hurt in 1.
+
+## E12. Choosing the score: candidates per cue, judged under the narration (25 Nov)
+
+- **Spotting (before generating):** two cues from storyboard.json. **night** (shots 1-7, 44.2 s): "instrumental, slow and tender, solo krar and soft strings, sparse, warm, night-time, Ethiopian pentatonic, no drums", 66 bpm, A minor; intent "quiet weight of the night shift; leave room for the voice". **promise** (shots 8-10 + end card, 25.3 s): "the same krar theme returning with gentle piano and warm strings, building softly", 66 bpm, C major (the relative major of A minor, so the crossfade stays in the same family); intent "lift into the promise".
+- **Hypothesis:** three seeds per cue are enough to find one that sits under the voice; same tempo in both cues makes a 3 s crossfade at shot 8 sound like one piece.
+- **Change:** 5 candidates via ACE-Step (`victor/ace-step-jam`, 8 steps, guidance 7): night seeds 300, 301, 302; promise seeds 310, 311 (the third hit the daily limit, F16). Tempo and key written into the tags, since that Space has no bpm/key fields.
+- **Result (measured):** 7-13 s per candidate; loudness night −13.4 / −12.6 / −11.3 LUFS, promise −15.1 / −12.8 LUFS. Chosen by ear, listening at low volume: **night s300, promise s310**. *(Why: to fill in in my own words.)* Joined with a 3 s triangular crossfade where cue 2 starts (`score_f47ccff4a6.wav`).
+- **Mix after the change:** film integrated loudness **−14.9 LUFS**, peak **−1.0 dBFS** (target −14 / −1), with the score ducked under the narration (sidechaincompress threshold 0.02, ratio 6, attack 300 ms, release 1500 ms).
+- **Decision:** keep. User test 2 will judge whether the music supports or competes with the voice.

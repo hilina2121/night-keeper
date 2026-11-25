@@ -50,6 +50,7 @@
       "additionalProperties": false,
       "properties": {
         "chosen": {"type": ["string", "null"], "description": "Path to the chosen score; null means use placeholder music"},
+        "model": {"type": "string", "description": "Which music backend made the candidates (part of their cache hash)"},
         "duck": {
           "type": "object",
           "additionalProperties": false,
