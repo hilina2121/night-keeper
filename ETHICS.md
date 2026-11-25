@@ -14,7 +14,9 @@
 ## 2. Labelling plan
 
 - The film ends with a visible end card: "Made with AI".
-- When posting, the platform's AI-content disclosure label is switched on.
+- When posting, the platform's AI-content disclosure label is switched on. **Done:** posted publicly on TikTok on
+  25 Nov 2026 with TikTok's AI-generated content setting on; the post shows "Creator labeled as AI-generated".
+  The caption is kept minimal on purpose (no names, places or workplace) to protect my family's privacy.
 - Provenance marks (SynthID / C2PA) left by any model are not removed.
 
 ## 3. Licences of models and outputs
