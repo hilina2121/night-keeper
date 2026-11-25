@@ -96,12 +96,31 @@ Sent by message on 24 Nov; answers written down as they were given.
 
 ## 6. User test 2: near-final cut
 
-*To do.*
+Tested: `outputs/final/night_keeper_9x16.mp4` (storyboard v2, 66.5 s): one-take narration with "Aba",
+line 7 shortened, 10 keyframes with Ken Burns moves (Wan 2.2 failed on the free T4s, FAILURES F14),
+original ACE-Step score (night s300 → promise s310) ducked under the voice, subtitles, AI end card.
+Sent by message on 25 Nov with three questions (feeling at the end; anything confusing/slow/unbelievable;
+did the music help or get in the way), then a follow-up: "if you could change one thing, what would it be?"
 
-| Person | Date | What they said | Where they reacted |
+| Person (first name / role) | Date | What they said | Where they reacted |
 |---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+| Dereje, friend (also in test 1) | 25 Nov | Clapped; "wonderful work". No change requested | No specific moment reported; nobody cried |
+| Selam, coworker (also in test 1) | 25 Nov | Clapped; "wonderful work". No change requested | No specific moment reported |
+| Bewk, friend (new viewer) | 25 Nov | Clapped; "wonderful work". No change requested | No specific moment reported |
 
-**What I changed because of it:**
+**What I learned (honestly):**
+1. **The fixes from test 1 held.** Dereje, who raised both the "Abba" pronunciation and the voice changing
+   between sentences, did not raise either again, and Selam did not ask about the coat again. A new viewer
+   (Bewk) followed the story without questions.
+2. **Admiration, not tears.** My intent was "grateful, moved to thank their own parent". The reaction was
+   applause and praise for the work, but nobody was visibly moved. The film lands as a well-made story more
+   than as a felt one.
+3. **The answers are thin.** "Wonderful work" from friends and a coworker is kind but not critical. Asking
+   people who know me is a limit of this test; strangers from the audience (e.g. the cohort on Slack) would
+   likely be more critical.
+
+**What I changed because of it:** no change to the storyboard after test 2; nobody asked for one, and with
+the deadline the picture is locked at v2. What I *would* try next to move people rather than impress
+them, as hypotheses for a v3: (a) real motion in the two emotional shots (5: walking to school, 10: the
+rebuilt house) instead of stills; (b) a longer silent hold on the coat (shot 7) before "Today I work…";
+(c) the father's own voice in one line, with his recorded consent.
