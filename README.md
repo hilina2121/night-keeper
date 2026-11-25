@@ -18,14 +18,14 @@ Change a line in the storyboard, run the pipeline again, and only what changed i
 
 Requirements: Python 3.11+ (tested on 3.14, Windows 11), [FFmpeg](https://ffmpeg.org/) on PATH, and free accounts at
 [Google AI Studio](https://aistudio.google.com/apikey), [Cloudflare](https://dash.cloudflare.com/sign-up)
-(Workers AI) and [Kaggle](https://www.kaggle.com) (phone-verified for GPU).
+(Workers AI) [Kaggle](https://www.kaggle.com) (phone-verified for GPU) and [Hugging Face](https://huggingface.co/join).
 
 ```bash
 git clone <this repo> && cd <repo>
 pip install -r requirements.txt
-cp .env.example .env          # then fill in the 5 values (see below)
+cp .env.example .env          # then fill in the 6 values (see below)
 python -m pipeline validate   # checks storyboard.json against schema/storyboard.schema.json
-python -m pipeline all        # narration -> radio cut -> keyframes (only what is missing or changed)
+python -m pipeline all        # narration -> radio cut -> keyframes -> final film (only what is missing or changed)
 ```
 
 | `.env` key | Where to get it |
@@ -35,6 +35,7 @@ python -m pipeline all        # narration -> radio cut -> keyframes (only what i
 | `CLOUDFLARE_API_TOKEN` | Workers AI → REST API → Create a Workers AI API Token |
 | `KAGGLE_API_TOKEN` | kaggle.com/settings → API Tokens → Generate New Token |
 | `KAGGLE_USERNAME` | your Kaggle username |
+| `HF_TOKEN` | huggingface.co/settings/tokens → Create new token (Read); needed for the music stage |
 
 Because generated files are committed in `outputs/` and every output is cached by a hash of its
 inputs, `python -m pipeline all` on a fresh clone with unchanged inputs makes **no model calls**: it
@@ -85,6 +86,13 @@ Kaggle GPU time (30 h/week), not money.
 | [FAILURES.md](FAILURES.md) | what broke, what I tried, what fixed it |
 | [COSTS.md](COSTS.md) | latency, quotas and cost per stage |
 | [ETHICS.md](ETHICS.md) | consent, licences of every model, labelling plan |
+
+## How this was built
+
+The code and the documents were drafted with a coding agent (Claude Code) under my direction. I chose the
+story and the audience, ran both audience tests, made the creative choices (voice, characters, shots, music)
+and reviewed what was written. The experiment and failure logs record what actually happened, including the
+things that did not work.
 
 ## Ethics in one paragraph
 
