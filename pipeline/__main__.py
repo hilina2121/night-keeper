@@ -10,6 +10,7 @@
     python -m pipeline shots-status    is the Kaggle run finished?
     python -m pipeline shots-fetch     download finished clips and merge their logs into runs.jsonl
     python -m pipeline music           ACE-Step score candidates on Kaggle (3 per cue)
+    python -m pipeline music-hf        same candidates via the official ACE-Step 1.5 Hugging Face Space
     python -m pipeline music-import D  copy candidates/clips downloaded from Kaggle into outputs/
     python -m pipeline music-score     join the chosen candidate of each cue into one score
     python -m pipeline assemble        final film, 9:16 and 16:9 (Ken Burns for shots without a clip)
@@ -25,7 +26,7 @@ from pipeline.storyboard import StoryboardError, load
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="python -m pipeline")
-    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "music", "music-import", "music-score", "assemble", "all"])
+    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "music", "music-hf", "music-import", "music-score", "assemble", "all"])
     p.add_argument("--shot", type=int, help="narration/keyframes: only regenerate this shot")
     p.add_argument("--character", help="refs: only this character")
     p.add_argument("folder", nargs="?", help="music-import: folder downloaded from Kaggle")
@@ -80,6 +81,10 @@ def main() -> None:
         from pipeline import music
         print("[music]")
         music.run()
+    if args.command == "music-hf":
+        from pipeline import music
+        print("[music via Hugging Face Space]")
+        music.run_hf()
     if args.command == "music-import":
         from pipeline import music
         music.import_outputs(args.folder or "outputs/kaggle/output")

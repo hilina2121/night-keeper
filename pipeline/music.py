@@ -154,3 +154,85 @@ def score_path(sb: dict) -> Path | None:
                     "-map", f"[{prev}]", str(out)], check=True)
     print(f"  score: {out.relative_to(ROOT).as_posix()} from {', '.join(p.name for p in picks)}")
     return out
+
+
+# ---------------------------------------------------------------- route 2: the official Hugging Face Space
+HF_SPACE = "ACE-Step/Ace-Step-v1.5"
+HF_MODEL = "acestep-v15-xl-turbo"  # the Space only initialises the 4B XL turbo DiT (F15)
+AUDIO_EXT = (".flac", ".mp3", ".wav")
+
+
+def _audio_paths(obj) -> list[str]:
+    """Collect audio file paths from a Gradio result (nested tuples / dicts / strings)."""
+    found: list[str] = []
+    if isinstance(obj, str):
+        if obj.lower().endswith(AUDIO_EXT) and Path(obj).exists():
+            found.append(obj)
+    elif isinstance(obj, dict):
+        for k in ("path", "value", "name"):
+            found += _audio_paths(obj.get(k))
+    elif isinstance(obj, (list, tuple)):
+        for x in obj:
+            found += _audio_paths(x)
+    return list(dict.fromkeys(found))
+
+
+def run_hf() -> None:
+    """Same jobs as `music`, run on the official ACE-Step 1.5 Space (ZeroGPU A10G) via gradio_client.
+
+    Used because Kaggle's GPU queue was unusable on 25 Nov (FAILURES F11, F13, F15).
+    LM planner ("Thinking") and its chain-of-thought rewrites are turned off so the caption, bpm and
+    key from the storyboard are what is played; instrumental via the "[Instrumental]" lyrics tag.
+    """
+    import time
+    from gradio_client import Client
+    from pipeline.common import log_call
+
+    sb = load()
+    MUSIC_DIR.mkdir(parents=True, exist_ok=True)
+    client = None
+    for job in cue_spans(sb):
+        todo = [s for s in job["seeds"] if not candidate(job, s)]
+        print(f"  cue {job['cue']:<8} {job['duration']:5.1f}s  {job['bpm']} bpm {job['key']:<8} "
+              f"seeds {job['seeds']}  {'QUEUED' if todo else 'cached'}")
+        if not todo:
+            continue
+        import os
+        load_env()
+        client = client or Client(HF_SPACE, verbose=False, hf_token=os.environ.get("HF_TOKEN") or None)
+        params = dict(selected_model=HF_MODEL, generation_mode="custom", param_4=job["caption"],
+                      param_5="[Instrumental]", param_6=job["bpm"] or 0, param_7=job["key"] or "",
+                      param_8="", param_10=8, param_12=False, param_13=",".join(str(s) for s in todo),
+                      param_15=job["duration"], param_16=len(todo), param_27=3.0, param_28="ode",
+                      param_30="flac", param_32=False, param_37=False, param_38=False, param_39=False)
+        # The Space requires every argument: start from its own defaults, then override ours.
+        spec = client.view_api(print_info=False, return_format="dict")["named_endpoints"]["/generation_wrapper"]
+        full = {}
+        for p in spec["parameters"]:
+            name, default = p["parameter_name"], p.get("parameter_default")
+            if default is None and p.get("component") in ("Textbox", "Dropdown"):
+                default = "" if p.get("component") == "Textbox" else None
+            full[name] = default
+        full["simple_query_input"] = ""
+        full.update(params)  # unused audio inputs (reference / source audio) stay None
+        t0 = time.perf_counter()
+        try:
+            res = client.predict(api_name="/generation_wrapper", **full)
+            paths = _audio_paths(res)[:len(todo)]
+            if not paths:
+                raise RuntimeError(f"no audio in result: {str(res)[:300]}")
+            outs = []
+            for seed, p in zip(todo, paths):
+                dst = MUSIC_DIR / f"{job['cue']}_{job['hash']}_s{seed}{Path(p).suffix}"
+                shutil.copy(p, dst)
+                outs.append(dst.relative_to(ROOT).as_posix())
+            log_call(stage="music", provider="huggingface-space", model=f"{HF_SPACE}:{HF_MODEL}",
+                     params={k: v for k, v in params.items()}, seed=todo[0],
+                     latency_s=time.perf_counter() - t0, status="ok", output=outs, cue=job["cue"])
+            for o in outs:
+                print(f"    -> {o}")
+        except Exception as e:
+            log_call(stage="music", provider="huggingface-space", model=f"{HF_SPACE}:{HF_MODEL}",
+                     params=params, latency_s=time.perf_counter() - t0, status="error",
+                     error=f"{type(e).__name__}: {e}"[:800], cue=job["cue"])
+            print(f"    FAILED: {type(e).__name__}: {str(e)[:300]}")
