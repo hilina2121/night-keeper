@@ -31,7 +31,6 @@ def log(rec):
 
 def worker(gpu, jobs, input_dir):
     """Generate the given jobs on one GPU."""
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu)
     import torch
     from diffusers import AutoencoderKLWan, WanImageToVideoPipeline
     from diffusers.utils import export_to_video, load_image
@@ -40,8 +39,15 @@ def worker(gpu, jobs, input_dir):
     # T4 has no fast bfloat16, so the transformer runs in float16; the VAE stays in float32,
     # which the diffusers docs recommend to avoid colour/NaN problems in decoding.
     vae = AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder="vae", torch_dtype=torch.float32)
-    pipe = WanImageToVideoPipeline.from_pretrained(MODEL_ID, vae=vae, torch_dtype=torch.float16)
-    pipe.enable_model_cpu_offload()  # 16 GB T4: keep only the active part of the model on the GPU
+    if torch.cuda.device_count() > 1:
+        # One 15 GB T4 ran out of memory even with CPU offload (FAILURES F14): spread the
+        # components over both T4s instead (text encoder on one, transformer on the other).
+        pipe = WanImageToVideoPipeline.from_pretrained(MODEL_ID, vae=vae, torch_dtype=torch.float16,
+                                                       device_map="balanced")
+    else:
+        pipe = WanImageToVideoPipeline.from_pretrained(MODEL_ID, vae=vae, torch_dtype=torch.float16)
+        pipe.enable_model_cpu_offload()
+    pipe.vae.enable_tiling()  # decode the video in tiles: the fp32 VAE is the other big memory user
     load_s = time.time() - t0
     log({"stage": "shots:load", "gpu": gpu, "model": MODEL_ID, "latency_s": round(load_s, 1), "status": "ok"})
 
@@ -50,12 +56,11 @@ def worker(gpu, jobs, input_dir):
         if os.path.exists(out):
             continue
         rec = {"stage": "shots", "provider": "kaggle", "model": MODEL_ID, "shot": job["shot"],
-               "hash": job["hash"], "seed": job["seed"], "gpu": f"T4#{gpu}",
+               "hash": job["hash"], "seed": job["seed"], "gpu": "T4x2 balanced",
                "params": {k: job[k] for k in ("prompt", "negative_prompt", "width", "height",
                                               "num_frames", "steps", "guidance", "fps")}}
         t1 = time.time()
         try:
-            torch.cuda.reset_peak_memory_stats()
             image = load_image(os.path.join(input_dir, job["keyframe"])).resize((job["width"], job["height"]))
             frames = pipe(image=image, prompt=job["prompt"], negative_prompt=job["negative_prompt"],
                           height=job["height"], width=job["width"], num_frames=job["num_frames"],
@@ -63,7 +68,7 @@ def worker(gpu, jobs, input_dir):
                           generator=torch.Generator("cpu").manual_seed(job["seed"])).frames[0]
             export_to_video(frames, out, fps=job["fps"])
             rec.update(status="ok", output=f"clips/{job['out']}",
-                       peak_vram_gb=round(torch.cuda.max_memory_allocated() / 1e9, 2))
+                       peak_vram_gb=[round(torch.cuda.max_memory_allocated(i) / 1e9, 2) for i in range(torch.cuda.device_count())])
         except Exception as e:  # keep going: one failed shot must not cost the others
             rec.update(status="error", error=f"{type(e).__name__}: {e}"[:800])
             torch.cuda.empty_cache()
@@ -89,7 +94,7 @@ def main():
     jobs = json.load(open(os.path.join(input_dir, "jobs.json")))["jobs"]
 
     import torch
-    n_gpu = max(1, min(torch.cuda.device_count(), len(jobs)))
+    n_gpu = 1  # one process using both GPUs through device_map="balanced" (F14)
     log({"stage": "shots:plan", "jobs": len(jobs), "gpus": torch.cuda.device_count(),
          "gpu_name": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None, "status": "ok"})
     # Download the weights once, before the workers start, so they do not race.
