@@ -98,8 +98,10 @@ def main():
     snapshot_download(MODEL_ID)
     log({"stage": "shots:download", "model": MODEL_ID, "latency_s": round(time.time() - t1, 1), "status": "ok"})
 
-    me = globals().get("__file__") or (sys.argv[0] if sys.argv and sys.argv[0].endswith(".py") else None)
-    if me and os.path.exists(me):
+    # Only a script run has a file to re-launch. In an interactive notebook sys.argv[0] is
+    # ipykernel_launcher.py, and re-launching that started kernels instead of workers (FAILURES F13).
+    me = globals().get("__file__")
+    if me and os.path.exists(me) and not me.endswith("ipykernel_launcher.py"):
         procs = [subprocess.Popen([sys.executable, me, "--worker", str(g), input_dir, str(n_gpu)])
                  for g in range(n_gpu)]
         for p in procs:

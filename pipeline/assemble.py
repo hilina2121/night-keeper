@@ -115,7 +115,9 @@ def mix_audio(sb: dict, tl: dict, out: Path) -> None:
     g = [f"[{i}:a]aresample=48000,adelay={int(s['voice_start'] * 1000)}:all=1[v{i}]" for i, s in enumerate(voiced)]
     g.append("".join(f"[v{i}]" for i in range(len(voiced))) + f"amix=inputs={len(voiced)}:normalize=0:"
              f"duration=longest,apad=whole_dur={total},aformat=channel_layouts=stereo,asplit=2[voice][key]")
-    chosen = sb["music"].get("chosen")
+    from pipeline.music import score_path
+    score = score_path(sb)
+    chosen = score.relative_to(ROOT).as_posix() if score else sb["music"].get("chosen")
     if chosen:
         args += ["-stream_loop", "-1", "-i", chosen]
         g.append(f"[{len(voiced)}:a]aresample=48000,atrim=duration={total},aformat=channel_layouts=stereo,"

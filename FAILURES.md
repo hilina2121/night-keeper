@@ -69,3 +69,10 @@ What broke, what I tried, what fixed it. Newest at the bottom. Evidence is in `r
 - **What broke:** the first 16:9 export centre-cropped the square keyframes to 1440x810. Shot 4 lost the father's head; shot 8 lost the top of the frame.
 - **Fix:** for 16:9 the whole square is shown in the middle over a blurred, darkened copy of itself (a common way to fit square or vertical footage in a wide frame). 9:16 keeps the centre crop, which works because every keyframe was composed with the subject in the middle (style block: "subject centred in frame").
 - **Also measured:** first mix at **−15.5 LUFS**, −0.9 dBFS peak (target −14 / −1). Single-pass `loudnorm` undershoots when the end card is silent; to fix with two-pass loudnorm in the final mix.
+
+## F13. API-started Kaggle GPU run never left the queue; the hand-started one hit a launcher bug (25 Nov)
+- **What broke (1):** the kernel pushed by `python -m pipeline shots` at 21:19 was still `QUEUED` at 07:48 the next morning, **10.5 hours**, while an interactive session started in the Kaggle editor got a GPU after a queue position of 8 in about 4 minutes.
+- **Workaround:** stopped relying on API-started GPU runs. The local stages still build the job, upload the dataset and push the code (`kernels push --no-run` for music), but the run is started by hand in the editor: Edit → GPU T4 x2 + Internet → Run All.
+- **What broke (2):** in the editor the runner re-launched itself as two GPU workers with `sys.argv[0]`, which inside a notebook is `ipykernel_launcher.py`. That started a second kernel (`[ColabKernelApp] WARNING | Unrecognized alias: 'worker'`) that waits forever, so the run hung after the model download (11 GPU-minutes lost).
+- **Fix:** cancelled, then called the already-defined `worker(0, jobs, input_dir)` from the Kaggle console, reusing the downloaded weights. The runner now re-launches only when it really is a script file, and otherwise runs on one GPU in-process.
+- **Measured:** Wan 2.2 TI2V-5B (diffusers, fp16 transformer + fp32 VAE, CPU offload) loads in **124.5 s** on a T4.

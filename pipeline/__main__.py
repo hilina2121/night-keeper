@@ -9,6 +9,9 @@
     python -m pipeline shots           animate keyframes on a Kaggle GPU (only shots without a clip)
     python -m pipeline shots-status    is the Kaggle run finished?
     python -m pipeline shots-fetch     download finished clips and merge their logs into runs.jsonl
+    python -m pipeline music           ACE-Step score candidates on Kaggle (3 per cue)
+    python -m pipeline music-import D  copy candidates/clips downloaded from Kaggle into outputs/
+    python -m pipeline music-score     join the chosen candidate of each cue into one score
     python -m pipeline assemble        final film, 9:16 and 16:9 (Ken Burns for shots without a clip)
     python -m pipeline all             everything above that is ready, in order
 """
@@ -22,9 +25,10 @@ from pipeline.storyboard import StoryboardError, load
 
 def main() -> None:
     p = argparse.ArgumentParser(prog="python -m pipeline")
-    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "assemble", "all"])
+    p.add_argument("command", choices=["validate", "narration", "radio", "refs", "keyframes", "shots", "shots-status", "shots-fetch", "music", "music-import", "music-score", "assemble", "all"])
     p.add_argument("--shot", type=int, help="narration/keyframes: only regenerate this shot")
     p.add_argument("--character", help="refs: only this character")
+    p.add_argument("folder", nargs="?", help="music-import: folder downloaded from Kaggle")
     p.add_argument("--variants", type=int, help="keyframes --shot N: make this many candidates to pick from")
     args = p.parse_args()
 
@@ -71,6 +75,17 @@ def main() -> None:
         print("[shots fetch]")
         shots.fetch()
 
+
+    if args.command == "music":
+        from pipeline import music
+        print("[music]")
+        music.run()
+    if args.command == "music-import":
+        from pipeline import music
+        music.import_outputs(args.folder or "outputs/kaggle/output")
+    if args.command == "music-score":
+        from pipeline import music
+        print("  score:", music.score_path(sb) or "choose a candidate per cue (chosen_seed) first")
 
     if args.command in ("assemble", "all"):
         from pipeline import assemble

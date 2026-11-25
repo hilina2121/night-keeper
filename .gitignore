@@ -21,3 +21,6 @@ outputs/final/*.mp4
 # copies made for the Kaggle upload (the sources are in outputs/keyframes and kaggle/)
 outputs/kaggle/input/
 outputs/kaggle/kernel/
+outputs/kaggle/music_input/
+outputs/kaggle/music_kernel/
+outputs/kaggle/output/

@@ -71,7 +71,8 @@
               "caption": {"type": "string", "description": "ACE-Step caption: style, mood, instruments, texture"},
               "bpm": {"type": "integer", "minimum": 40, "maximum": 200},
               "key": {"type": "string"},
-              "intent": {"type": "string", "description": "What the music should do emotionally (spotting note)"}
+              "intent": {"type": "string", "description": "What the music should do emotionally (spotting note)"},
+              "chosen_seed": {"type": ["integer", "null"], "description": "Seed of the chosen ACE-Step candidate for this cue (EXPERIMENTS: score choice)"}
             }
           }
         }
